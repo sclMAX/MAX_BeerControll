@@ -77,7 +77,6 @@ public:
   void tone(uint16_t const &duration, uint16_t const &frequency = 0) {
     while (buffer.isFull()) {
       this->tick();
-      thermalManager.manage_heater();
     }
     this->buffer.enqueue((tone_t){duration, frequency});
   }

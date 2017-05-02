@@ -4,6 +4,8 @@
 #include "pantalla.h"
 #include "buzzer.h"
 
+Buzzer buzzer;
+
 ClickEncoder *encoder;
 int16_t last, value;
 
@@ -13,7 +15,6 @@ void setup() {
 
   Serial.begin(9600);
   encoder = new ClickEncoder(EN1, EN2, ENC, ENSTP);
-  pinMode(BEEPER_PIN, OUTPUT);
   Timer1.initialize(1000);
   Timer1.attachInterrupt(timerIsr);
   last = -1;
@@ -37,7 +38,7 @@ void loop() {
 #define VERBOSECASE(label)                                                     \
   case label:                                                                  \
     Serial.println(#label);                                                    \
-    beeper(0, 20);                                                             \
+    buzzer.tone(2, 5000);                                                            \
     break;
     switch (b) {
       VERBOSECASE(ClickEncoder::Pressed)
@@ -46,12 +47,12 @@ void loop() {
 
     case ClickEncoder::Clicked:
       Serial.println("ClickEncoder::Clicked");
-      beeper(0, 10);
+     buzzer.tone(2, 5000);
       break;
     case ClickEncoder::DoubleClicked:
       Serial.println("ClickEncoder::DoubleClicked");
-      beeper(0, 10);
-      beeper(20, 10);
+      buzzer.tone(2, 5000);
+      buzzer.tone(2, 5000);
       encoder->setAccelerationEnabled(!encoder->getAccelerationEnabled());
       Serial.print("  Acceleration is ");
       Serial.println((encoder->getAccelerationEnabled()) ? "enabled"
