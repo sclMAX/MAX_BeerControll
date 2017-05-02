@@ -3,8 +3,7 @@
         {
             "name": "Linux",
             "includePath": [
-                "/home/max/Programas/arduino-1.8.2/hardware/arduino/avr/cores/arduino",
-                "/home/max/Arduino/libraries/arduino_941698/src"
+                "/home/max/Programas/arduino-1.8.2/hardware/arduino/avr/cores/arduino"
             ],
             "browse": {
                 "limitSymbolsToIncludedHeaders": false,
