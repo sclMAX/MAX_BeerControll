@@ -14,4 +14,6 @@
     #define LCD_PINS_D5 25
     #define LCD_PINS_D6 27
     #define LCD_PINS_D7 29
+    //Types
+    typedef unsigned long millis_t;
 #endif

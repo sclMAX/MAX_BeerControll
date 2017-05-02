@@ -1,20 +1,13 @@
 #include "ClickEncoder.h"
 #include <TimerOne.h>
-extern unsigned long now = 0;
 #include "config.h"
 #include "pantalla.h"
+#include "buzzer.h"
 
 ClickEncoder *encoder;
 int16_t last, value;
 
 void timerIsr() { encoder->service(); }
-
-static void beeper(int retardo, int duracion) {
-  delay(retardo);
-  digitalWrite(BEEPER_PIN, HIGH);
-  delay(duracion);
-  digitalWrite(BEEPER_PIN, LOW);
-}
 
 void setup() {
 
@@ -33,7 +26,7 @@ void loop() {
     value = (value >= 0) ? value : 2;
     value = (value <= 2) ? value : 0;
     last = value;
-    beeper(0, 10);
+    buzzer.tone(2, 5000);
     Serial.print("Encoder Value: ");
     Serial.println(value);
   }
@@ -69,3 +62,4 @@ void loop() {
 
   prueba(last);
 }
+
