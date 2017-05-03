@@ -39,24 +39,24 @@ inline void drawOlla(u8g_uint_t x, u8g_uint_t y, const int etiqueta, bool sel) {
   } else {
     u8g.setColorIndex(1); //  white on black
   }
-  String temp = "";
   int w = 0;
+  String temp = "";
   switch (etiqueta) {
   case 0:
     u8g.drawStr(x + 8, y + 14, "L");
-    temp = String(int(thermalManager.getTempLicor));
+    temp = String(thermalManager.getTempLicor(),2);
     w = u8g.getStrWidth(temp.c_str());
     u8g.drawStr(x +(OLLA_WIDTH / 2)- (w/2), y -1, temp.c_str());
     break;
   case 1:
     u8g.drawStr(x + 8, y + 14, "M");
-    temp = String(int(thermalManager.getTempMacerador));
+    temp = String(thermalManager.getTempMacerador(),2);
     w = u8g.getStrWidth(temp.c_str());
     u8g.drawStr(x +(OLLA_WIDTH / 2)- (w/2), y -1, temp.c_str());
     break;
   case 2:
     u8g.drawStr(x + 8, y + 14, "H"); 
-    temp = String(int(thermalManager.getTempHervido));
+    temp = String(thermalManager.getTempHervido(), 2 );
     w = u8g.getStrWidth(temp.c_str());
     u8g.drawStr(x +(OLLA_WIDTH / 2)- (w/2), y -1, temp.c_str());
     break;
