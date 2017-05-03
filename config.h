@@ -14,6 +14,10 @@
     #define LCD_PINS_D5 25
     #define LCD_PINS_D6 27
     #define LCD_PINS_D7 29
+    //TEMP_SENSORS
+    #define TEMP_LICOR_PIN         13   // ANALOG NUMBERING
+    #define TEMP_MACERADOR_PIN         15   // ANALOG NUMBERING
+    #define TEMP_HERVIDO_PIN       14   // ANALOG NUMBERING
     //Types
     typedef unsigned long millis_t;
 #endif
