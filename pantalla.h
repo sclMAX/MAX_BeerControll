@@ -2,6 +2,7 @@
 #define PANTALLA_H
 
 #include <U8glib.h>
+#include "temperature.h"
 
 U8GLIB_ST7920_128X64_1X u8g(LCD_PINS_D4, LCD_PINS_ENABLE,
                             LCD_PINS_RS); // SPI Com: (SCK, MOSI, CS)
@@ -38,18 +39,28 @@ inline void drawOlla(u8g_uint_t x, u8g_uint_t y, const int etiqueta, bool sel) {
   } else {
     u8g.setColorIndex(1); //  white on black
   }
+  String temp = "";
+  int w = 0;
   switch (etiqueta) {
   case 0:
     u8g.drawStr(x + 8, y + 14, "L");
+    temp = String(int(thermalManager.getTempLicor));
+    w = u8g.getStrWidth(temp.c_str());
+    u8g.drawStr(x +(OLLA_WIDTH / 2)- (w/2), y -1, temp.c_str());
     break;
   case 1:
     u8g.drawStr(x + 8, y + 14, "M");
+    temp = String(int(thermalManager.getTempMacerador));
+    w = u8g.getStrWidth(temp.c_str());
+    u8g.drawStr(x +(OLLA_WIDTH / 2)- (w/2), y -1, temp.c_str());
     break;
   case 2:
-    u8g.drawStr(x + 8, y + 14, "H");
+    u8g.drawStr(x + 8, y + 14, "H"); 
+    temp = String(int(thermalManager.getTempHervido));
+    w = u8g.getStrWidth(temp.c_str());
+    u8g.drawStr(x +(OLLA_WIDTH / 2)- (w/2), y -1, temp.c_str());
     break;
   }
-
   u8g.setColorIndex(1); //  white on black
 } // DRAW OLLA
 
