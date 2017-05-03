@@ -9,15 +9,25 @@
 
     class Olla{
         public:
-            Olla (uint8_t pinQ, uint8_t pinS);
-
-            static float current_temperature;
-            static int current_temperature_raw;
-            static volatile bool isQuemadorOn;
+            Olla (int, int, String);
+            void setTemp(float);
+            void setTempTarget(float);
+            void setHisteresis(int, int);
+            void calentar();
+            void apagar();
+            float getTemp();
+            int getPinQuemador();
+            int getPinSensor();
+            volatile bool isQuemadorOn = false;
         private:
-            const uint8_t pinQuemador;
-            const uint8_t pinSensor;
-
+            int pinQuemador;
+            int pinSensor;
+            int histeresisInf = 0;
+            int histeresisSup = 0;
+            String nombre;
+            float tempTarget = 0.00;
+            volatile float temp = 0;
+            volatile bool isCalentar = false;
     };
 
 #endif //OLLA_H

@@ -4,6 +4,7 @@
 #include "pantalla.h"
 #include "temperature.h"
 #include <TimerOne.h>
+#include "Olla.h"
 
 Buzzer buzzer;
 
