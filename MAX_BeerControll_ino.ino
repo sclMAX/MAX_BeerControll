@@ -4,17 +4,10 @@
 #include "pantalla.h"
 #include "temperature.h"
 #include <TimerOne.h>
-#include "Olla.h"
-#include "OllaLicor.h"
-#include "OllaMacerador.h"
-#include "OllaHervido.h"
 
 Buzzer buzzer;
 
 ClickEncoder *encoder;
-OllaLicor *pLicor;
-OllaMacerador *pMacerador;
-OllaHervido *pHervido;
 Temperature *tempManager;
 
 int16_t last, value;
@@ -26,10 +19,7 @@ void setup() {
 
   Serial.begin(9600);
   encoder = new ClickEncoder(EN1, EN2, ENC, ENSTP);
-  pLicor = new OllaLicor("L");
-  pMacerador = new OllaMacerador("M");
-  pHervido = new OllaHervido("H");
-  tempManager = new Temperature(*pLicor, *pMacerador, *pHervido);
+  tempManager = new Temperature();
   Timer1.initialize(1000);
   Timer1.attachInterrupt(timerIsr);
   last = -1;

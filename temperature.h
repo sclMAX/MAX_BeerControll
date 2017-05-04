@@ -13,14 +13,13 @@
   #include <util/delay.h>
   #include "thermistortables.h"
   #include "config.h"
-  #include "Olla.h"
+  #include "OllaLicor.h"
   #include "Arduino.h"
 
   class Temperature {
 
     public:
-
-      static Olla *pLicor, *pMacerador, *pHervido;
+      static OllaLicor *pLicor;
       static int   currentTempLicorRaw,
                    currentTempMaceradorRaw,
                    currentTempHervidoRaw;
@@ -35,7 +34,7 @@
       * Instance Methods
       */
 
-      Temperature(Olla&, Olla&, Olla&);
+      Temperature();
 
       void init();
 

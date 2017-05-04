@@ -2,7 +2,6 @@
  * temperature.cpp - temperature control
  */
 #include "temperature.h"
-#include "Olla.h"
 
 enum TempState {
   PrepareTempLicor,
@@ -14,9 +13,6 @@ enum TempState {
   StartupDelay // Startup, delay initial temp reading a tiny bit so the hardware
                // can settle
 };
-
-// public:
-static Olla *Temperature::pLicor, *Temperature::pMacerador, *Temperature::pHervido;
 int Temperature::currentTempLicorRaw = 0,
     Temperature::currentTempMaceradorRaw = 0,
     Temperature::currentTempHervidoRaw = 0;
@@ -30,10 +26,8 @@ unsigned long Temperature::rawTempHervidoValue = 0;
  * Class and Instance Methods
  */
 
-Temperature::Temperature(Olla &Licor, Olla &Macerador, Olla &Hervido) {
-  *Temperature::pLicor = Licor;
-  *Temperature::pMacerador = Macerador;
-  *Temperature::pHervido = Hervido;
+Temperature::Temperature() {
+  pLicor = new OllaLicor('L');
 }
 
 /**
@@ -79,9 +73,9 @@ float Temperature::analog2temp(int raw) {
  * as it would block the stepper routine.
  */
 void Temperature::updateTemperaturesFromRawValues() {
-  Temperature::pLicor->setTemp(Temperature::analog2temp(currentTempLicorRaw));
-  Temperature::pMacerador->setTemp(Temperature::analog2temp(currentTempMaceradorRaw));
-  Temperature::pHervido->setTemp(Temperature::analog2temp(currentTempHervidoRaw));
+  pLicor->setTemperatura(Temperature::analog2temp(currentTempLicorRaw));
+ // Temperature::pMacerador->setTemp(Temperature::analog2temp(currentTempMaceradorRaw));
+ // Temperature::pHervido->setTemp(Temperature::analog2temp(currentTempHervidoRaw));
   CRITICAL_SECTION_START;
   temp_meas_ready = false;
   CRITICAL_SECTION_END;
