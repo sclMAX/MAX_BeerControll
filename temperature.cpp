@@ -1,19 +1,8 @@
 /**
  * temperature.cpp - temperature control
  */
-
-#include <inttypes.h>
-#include <math.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-
 #include "temperature.h"
-#include "thermistortables.h"
-#include <avr/eeprom.h>
-#include <avr/interrupt.h>
-#include <avr/pgmspace.h>
-#include <util/delay.h>
+#include "Olla.h"
 
 enum TempState {
   PrepareTempLicor,
@@ -26,13 +15,8 @@ enum TempState {
                // can settle
 };
 
-Temperature thermalManager;
-
 // public:
-
-float Temperature::currentTempLicor = 0.0,
-      Temperature::currentTempMacerador = 0.0,
-      Temperature::currentTempHervido = 0.0;
+static Olla *Temperature::pLicor, *Temperature::pMacerador, *Temperature::pHervido;
 int Temperature::currentTempLicorRaw = 0,
     Temperature::currentTempMaceradorRaw = 0,
     Temperature::currentTempHervidoRaw = 0;
@@ -46,12 +30,16 @@ unsigned long Temperature::rawTempHervidoValue = 0;
  * Class and Instance Methods
  */
 
-Temperature::Temperature() {}
+Temperature::Temperature(Olla &Licor, Olla &Macerador, Olla &Hervido) {
+  *Temperature::pLicor = Licor;
+  *Temperature::pMacerador = Macerador;
+  *Temperature::pHervido = Hervido;
+}
 
 /**
  * Actualiza valores de temperatura
  */
-void Temperature::updateTemp() {
+void Temperature::manageTemp() {
 
   if (!temp_meas_ready)
     return;
@@ -91,9 +79,9 @@ float Temperature::analog2temp(int raw) {
  * as it would block the stepper routine.
  */
 void Temperature::updateTemperaturesFromRawValues() {
-  currentTempLicor = Temperature::analog2temp(currentTempLicorRaw);
-  currentTempMacerador = Temperature::analog2temp(currentTempMaceradorRaw);
-  currentTempHervido = Temperature::analog2temp(currentTempHervidoRaw);
+  Temperature::pLicor->setTemp(Temperature::analog2temp(currentTempLicorRaw));
+  Temperature::pMacerador->setTemp(Temperature::analog2temp(currentTempMaceradorRaw));
+  Temperature::pHervido->setTemp(Temperature::analog2temp(currentTempHervidoRaw));
   CRITICAL_SECTION_START;
   temp_meas_ready = false;
   CRITICAL_SECTION_END;
@@ -142,7 +130,7 @@ void Temperature::init() {
  */
 void Temperature::set_current_temp_raw() {
   currentTempLicorRaw = rawTempLicorValue;
-  currentTempMacerador = rawTempMaceradorValue;
+  currentTempMaceradorRaw = rawTempMaceradorValue;
   currentTempHervidoRaw = rawTempHervidoValue;
   temp_meas_ready = true;
 }

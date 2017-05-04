@@ -2,17 +2,25 @@
 #ifndef TEMPERATURE_H
   #define TEMPERATURE_H
 
+  #include <inttypes.h>
+  #include <math.h>
+  #include <stdio.h>
+  #include <stdlib.h>
+  #include <string.h>
+  #include <avr/eeprom.h>
+  #include <avr/interrupt.h>
+  #include <avr/pgmspace.h>
+  #include <util/delay.h>
   #include "thermistortables.h"
   #include "config.h"
-  #include "MarlinConfig.h"
+  #include "Olla.h"
+  #include "Arduino.h"
 
   class Temperature {
 
     public:
 
-      static float currentTempLicor,
-                   currentTempMacerador,
-                   currentTempHervido;
+      static Olla *pLicor, *pMacerador, *pHervido;
       static int   currentTempLicorRaw,
                    currentTempMaceradorRaw,
                    currentTempHervidoRaw;
@@ -27,7 +35,7 @@
       * Instance Methods
       */
 
-      Temperature();
+      Temperature(Olla&, Olla&, Olla&);
 
       void init();
 
@@ -44,16 +52,10 @@
       /**
       * Call periodically to manage heaters
       */
-      static void updateTemp();
-
-      static float getTempLicor() { return currentTempLicor;}
-      static float getTempMacerador(){ return currentTempMacerador;}
-      static float getTempHervido(){return currentTempHervido;}
-
+      static void manageTemp();
     private:
 
       static void set_current_temp_raw();
       static void updateTemperaturesFromRawValues();
   };
-  extern Temperature thermalManager;
 #endif // TEMPERATURE_H

@@ -17,13 +17,45 @@
             void apagar();
             float getTemp();
             volatile bool isQuemadorOn = false;
-        private:
-            int histeresisInf = 0;
-            int histeresisSup = 0;
-            String nombre;
-            float tempTarget = 0.00;
+        protected:
             volatile float temp = 0;
             volatile bool isCalentar = false;
+            float tempTarget = 0.00;            
+            int histeresisInf = 0;
+            int histeresisSup = 0;
+        private:
+            String nombre;
+            
     };
+    Olla::Olla(String _nombre){
+        Olla::nombre = _nombre;
+    }
+
+    void Olla::setTempTarget(float _tempTarget){
+        Olla::tempTarget = _tempTarget;
+    }
+
+    void Olla::setTemp(float _temp){
+        if(temp != _temp){
+            temp = _temp;
+        };
+    }
+
+    void Olla::setHisteresis(int _hiesteresisSup, int _histeresisInf){
+        histeresisInf = _histeresisInf;
+        histeresisSup = _hiesteresisSup;
+    }
+
+    void Olla::calentar(){
+        isCalentar = true;
+    }
+
+    void Olla::apagar(){
+        isCalentar = false;
+    }
+
+    float Olla::getTemp(){
+        return temp;
+    }
 
 #endif //OLLA_H

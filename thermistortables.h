@@ -66,7 +66,7 @@ const short temptable_1[][2] PROGMEM = {
     {993 * OVERSAMPLENR, 15 + COMPENSAR},
     {999 * OVERSAMPLENR, 10 + COMPENSAR},
     {1004 * OVERSAMPLENR, 5 + COMPENSAR},
-    {1008 * OVERSAMPLENR, 0 + COMPENSAR} // safety
+    {1008 * OVERSAMPLENR, 0 } // safety
 };
 #define TEMPTABLE temptable_1
 #define TEMPTABLE_LEN COUNT(TEMPTABLE)

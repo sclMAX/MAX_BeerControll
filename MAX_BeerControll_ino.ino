@@ -5,10 +5,18 @@
 #include "temperature.h"
 #include <TimerOne.h>
 #include "Olla.h"
+#include "OllaLicor.h"
+#include "OllaMacerador.h"
+#include "OllaHervido.h"
 
 Buzzer buzzer;
 
 ClickEncoder *encoder;
+OllaLicor *pLicor;
+OllaMacerador *pMacerador;
+OllaHervido *pHervido;
+Temperature *tempManager;
+
 int16_t last, value;
 float tH, tL, tM;
 
@@ -18,34 +26,22 @@ void setup() {
 
   Serial.begin(9600);
   encoder = new ClickEncoder(EN1, EN2, ENC, ENSTP);
+  pLicor = new OllaLicor("L");
+  pMacerador = new OllaMacerador("M");
+  pHervido = new OllaHervido("H");
+  tempManager = new Temperature(*pLicor, *pMacerador, *pHervido);
   Timer1.initialize(1000);
   Timer1.attachInterrupt(timerIsr);
   last = -1;
   tH = -1;
   tM = -1;
   tL = -1;
-  thermalManager.init();
+  tempManager->init();
 }
 
 void loop() {
   value -= encoder->getValue();
-  thermalManager.updateTemp();
-  if (tH != (int) thermalManager.getTempHervido()) {
-    tH = (int) thermalManager.getTempHervido();
-    Serial.print("Temp. Hervido:");
-    Serial.println(tH);
-  }
-  if (tL != thermalManager.getTempLicor()) {
-    tL =  thermalManager.getTempLicor();
-    Serial.print("Temp. Licor:");
-    Serial.println(tL);
-  }
-  if (tM != thermalManager.getTempMacerador()) {
-    tM = thermalManager.getTempMacerador();
-    Serial.print("Temp. Macerador:");
-    Serial.println(tM);
-  }
-
+  tempManager->manageTemp();
   if (value != last) {
     value = (value >= 0) ? value : 2;
     value = (value <= 2) ? value : 0;

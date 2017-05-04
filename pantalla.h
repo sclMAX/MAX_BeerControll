@@ -16,7 +16,7 @@ U8GLIB_ST7920_128X64_1X u8g(LCD_PINS_D4, LCD_PINS_ENABLE,
 #define LCD_PIXEL_HEIGHT 64
 #endif
 //  DRAW OLLA
-inline void drawOlla(u8g_uint_t x, u8g_uint_t y, const int etiqueta, bool sel) {
+inline void drawOlla(u8g_uint_t x, u8g_uint_t y, bool sel) {
   u8g_uint_t ollaAlto = OLLA_HEIGTH;
   u8g_uint_t ollaAncho = OLLA_WIDTH;
   u8g_uint_t ollaIntAncho = ollaAncho - 2;
@@ -39,28 +39,6 @@ inline void drawOlla(u8g_uint_t x, u8g_uint_t y, const int etiqueta, bool sel) {
   } else {
     u8g.setColorIndex(1); //  white on black
   }
-  int w = 0;
-  String temp = "";
-  switch (etiqueta) {
-  case 0:
-    u8g.drawStr(x + 8, y + 14, "L");
-    temp = String(thermalManager.getTempLicor(),2);
-    w = u8g.getStrWidth(temp.c_str());
-    u8g.drawStr(x +(OLLA_WIDTH / 2)- (w/2), y -1, temp.c_str());
-    break;
-  case 1:
-    u8g.drawStr(x + 8, y + 14, "M");
-    temp = String(thermalManager.getTempMacerador(),2);
-    w = u8g.getStrWidth(temp.c_str());
-    u8g.drawStr(x +(OLLA_WIDTH / 2)- (w/2), y -1, temp.c_str());
-    break;
-  case 2:
-    u8g.drawStr(x + 8, y + 14, "H"); 
-    temp = String(thermalManager.getTempHervido(), 2 );
-    w = u8g.getStrWidth(temp.c_str());
-    u8g.drawStr(x +(OLLA_WIDTH / 2)- (w/2), y -1, temp.c_str());
-    break;
-  }
   u8g.setColorIndex(1); //  white on black
 } // DRAW OLLA
 
@@ -71,11 +49,11 @@ void prueba(int item) {
   do {
 
     // LICOR
-    drawOlla(3, 8, 0, (item == 0));
+    drawOlla(3, 8, (item == 0));
     // MACERADOR
-    drawOlla((anchoPantalla / 2) - (OLLA_WIDTH / 2), 8, 1, (item == 1));
+    drawOlla((anchoPantalla / 2) - (OLLA_WIDTH / 2), 8,  (item == 1));
     // HERVIDO
-    drawOlla(anchoPantalla - (OLLA_WIDTH + 3), 8, 2, (item == 2));
+    drawOlla(anchoPantalla - (OLLA_WIDTH + 3), 8, (item == 2));
 
   } while (u8g.nextPage());
 
