@@ -1,18 +1,10 @@
 #ifndef OLLA_CPP
 #define OLLA_CPP
 
-    #include "Olla.h".
-    #include "fastio.h"
-    #include "macros.h"
+    #include "Olla.h"
 
-    #define QUEMADOR_ON WRITE(STRINGIFY(pinQuemador), HIGH); isQuemadorOn = true;
-    #define QUEMADOR_OFF WRITE(STRINGIFY(pinQuemador), LOW); isQuemadorOn = false;
-
-    Olla::Olla(int _pinQuemador, int _pinSensor, String _nombre){
-        pinQuemador = _pinQuemador;
-        pinSensor = _pinSensor;
+    Olla::Olla(String _nombre){
         nombre = _nombre;
-        SET_OUTPUT(STRINGIFY(pinQuemador));
     }
 
     void Olla::setTempTarget(float _tempTarget){
@@ -20,18 +12,7 @@
     }
 
     void Olla::setTemp(float _temp){
-        if(temp != _temp){
-            temp = _temp;
-            if(isCalentar){ 
-                if((temp) <= (tempTarget - histeresisInf)){
-                    QUEMADOR_ON;
-                }else if(((temp) >= (tempTarget + histeresisSup))){
-                    QUEMADOR_OFF;
-                }
-            }else{
-                QUEMADOR_OFF;
-            }
-        }
+        
     }
 
     void Olla::setHisteresis(int _hiesteresisSup, int _histeresisInf){
@@ -50,7 +31,4 @@
     float Olla::getTemp(){
         return temp;
     }
-
-    int Olla::getPinQuemador(){return pinQuemador;}
-    int Olla::getPinSensor(){return pinSensor;}
 #endif //OLLA_CPP
