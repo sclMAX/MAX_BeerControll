@@ -4,16 +4,19 @@
 #include "pantalla.h"
 #include "temperature.h"
 #include <TimerOne.h>
-
-Buzzer buzzer;
-
 ClickEncoder *encoder;
 Temperature *tempManager;
+Buzzer buzzer;
 
 int16_t last, value;
-float tH, tL, tM;
 
 void timerIsr() { encoder->service(); }
+
+void manageEncoder(int16_t &ev){
+  if(ev != last){
+    last = value;
+  }
+}
 
 void setup() {
 
@@ -23,14 +26,12 @@ void setup() {
   Timer1.initialize(1000);
   Timer1.attachInterrupt(timerIsr);
   last = -1;
-  tH = -1;
-  tM = -1;
-  tL = -1;
   tempManager->init();
 }
 
 void loop() {
   value -= encoder->getValue();
+  manageEncoder(value);
   tempManager->manageTemp();
   if (value != last) {
     value = (value >= 0) ? value : 2;

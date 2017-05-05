@@ -13,13 +13,23 @@
   #include <util/delay.h>
   #include "thermistortables.h"
   #include "config.h"
-  #include "OllaLicor.h"
   #include "Arduino.h"
 
-  class Temperature {
+struct Olla {
+  volatile float temperatura = 0.00;
+  float tempTarget = 0.00;
+  volatile bool isCalentar = false;
+  volatile bool isQuemadorOn = false;
+  float histeresisSup = 0.00;
+  float histeresisInf = 0.00;
+};
 
+
+  class Temperature {
     public:
-      static OllaLicor *pLicor;
+      static Olla Licor;
+      static Olla Macerador;
+      static Olla Hervido;
       static int   currentTempLicorRaw,
                    currentTempMaceradorRaw,
                    currentTempHervidoRaw;
