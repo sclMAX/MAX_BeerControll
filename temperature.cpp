@@ -2,9 +2,9 @@
  * temperature.cpp - temperature control
  */
 #include "temperature.h"
+#include "config.h"
 #include "fastio.h"
 #include "macros.h"
-#include "config.h"
 
 enum TempState {
   PrepareTempLicor,
@@ -83,50 +83,72 @@ float Temperature::analog2temp(int raw) {
 void Temperature::updateTemperaturesFromRawValues() {
   volatile float temp = 0.00;
 
-  //INICIO OLLA LICOR
+  // INICIO OLLA LICOR
   temp = Temperature::analog2temp(currentTempLicorRaw);
-  if(Licor.temperatura != temp){
+  if (Licor.temperatura != temp) {
     Licor.temperatura = temp;
-    if(Licor.isCalentar){
-      if((Licor.temperatura <= (Licor.tempTarget - Licor.histeresisInf))&&(!Licor.isQuemadorOn)){
-        WRITE(QUEMADOR_LICOR_PIN, HIGH);
-        Licor.isQuemadorOn = true;
-      }else if((Licor.temperatura >= (Licor.tempTarget + Licor.histeresisSup))&&(Licor.isQuemadorOn)){
-        WRITE(QUEMADOR_LICOR_PIN, LOW);
-        Licor.isQuemadorOn = false;
-      }
+  }
+  if (Licor.isCalentar) {
+    if ((Licor.temperatura <= (Licor.tempTarget - Licor.histeresisInf)) &&
+        (!Licor.isQuemadorOn)) {
+      WRITE(QUEMADOR_LICOR_PIN, HIGH);
+      Licor.isQuemadorOn = true;
+    } else if ((Licor.temperatura >=
+                (Licor.tempTarget + Licor.histeresisSup)) &&
+               (Licor.isQuemadorOn)) {
+      WRITE(QUEMADOR_LICOR_PIN, LOW);
+      Licor.isQuemadorOn = false;
     }
-  } //FIN OLLA LICOR
-  
-  //INICIO OLLA MACERADOR
-  temp = Temperature::analog2temp(currentTempMaceradorRaw);
-  if(Macerador.temperatura != temp){
-    Macerador.temperatura = temp;
-    if(Macerador.isCalentar){
-      if((Macerador.temperatura <= (Macerador.tempTarget - Macerador.histeresisInf))&&(!Macerador.isQuemadorOn)){
-        WRITE(QUEMADOR_MACERADOR_PIN, HIGH);
-        Macerador.isQuemadorOn = true;
-      }else if((Macerador.temperatura >= (Macerador.tempTarget + Macerador.histeresisSup))&&(Macerador.isQuemadorOn)){
-        WRITE(QUEMADOR_MACERADOR_PIN, LOW);
-        Macerador.isQuemadorOn = false;
-      }
-    }
-  }//FIN OLLA MACERADOR
+  } else {
+    WRITE(QUEMADOR_LICOR_PIN, LOW);
+    Licor.isQuemadorOn = false;
+  }
+  // FIN OLLA LICOR
 
-  //INICIO OLLA HERVIDO
-  temp = Temperature::analog2temp(currentTempHervidoRaw);
-  if(Hervido.temperatura != temp){
-    Hervido.temperatura = temp;
-    if(Hervido.isCalentar){
-      if((Hervido.temperatura <= (Hervido.tempTarget - Hervido.histeresisInf))&&(!Hervido.isQuemadorOn)){
-        WRITE(QUEMADOR_HERVIDO_PIN, HIGH);
-        Hervido.isQuemadorOn = true;
-      }else if((Hervido.temperatura >= (Hervido.tempTarget + Hervido.histeresisSup))&&(Hervido.isQuemadorOn)){
-        WRITE(QUEMADOR_HERVIDO_PIN, LOW);
-        Hervido.isQuemadorOn = false;
-      }
+  // INICIO OLLA MACERADOR
+  temp = Temperature::analog2temp(currentTempMaceradorRaw);
+  if (Macerador.temperatura != temp) {
+    Macerador.temperatura = temp;
+  }
+  if (Macerador.isCalentar) {
+    if ((Macerador.temperatura <=
+         (Macerador.tempTarget - Macerador.histeresisInf)) &&
+        (!Macerador.isQuemadorOn)) {
+      WRITE(QUEMADOR_MACERADOR_PIN, HIGH);
+      Macerador.isQuemadorOn = true;
+    } else if ((Macerador.temperatura >=
+                (Macerador.tempTarget + Macerador.histeresisSup)) &&
+               (Macerador.isQuemadorOn)) {
+      WRITE(QUEMADOR_MACERADOR_PIN, LOW);
+      Macerador.isQuemadorOn = false;
     }
-  }//FIN OLLA MACERADOR
+  } else {
+    WRITE(QUEMADOR_MACERADOR_PIN, LOW);
+    Macerador.isQuemadorOn = false;
+  }
+  // FIN OLLA MACERADOR
+
+  // INICIO OLLA HERVIDO
+  temp = Temperature::analog2temp(currentTempHervidoRaw);
+  if (Hervido.temperatura != temp) {
+    Hervido.temperatura = temp;
+  }
+  if (Hervido.isCalentar) {
+    if ((Hervido.temperatura <= (Hervido.tempTarget - Hervido.histeresisInf)) &&
+        (!Hervido.isQuemadorOn)) {
+      WRITE(QUEMADOR_HERVIDO_PIN, HIGH);
+      Hervido.isQuemadorOn = true;
+    } else if ((Hervido.temperatura >=
+                (Hervido.tempTarget + Hervido.histeresisSup)) &&
+               (Hervido.isQuemadorOn)) {
+      WRITE(QUEMADOR_HERVIDO_PIN, LOW);
+      Hervido.isQuemadorOn = false;
+    }
+  } else {
+    WRITE(QUEMADOR_HERVIDO_PIN, LOW);
+    Hervido.isQuemadorOn = false;
+  }
+  // FIN OLLA MACERADOR
   CRITICAL_SECTION_START;
   temp_meas_ready = false;
   CRITICAL_SECTION_END;

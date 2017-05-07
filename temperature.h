@@ -22,6 +22,7 @@ struct Olla {
   volatile bool isQuemadorOn = false;
   float histeresisSup = 0.00;
   float histeresisInf = 0.00;
+  char etiqueta;
 };
 
 
@@ -67,4 +68,5 @@ struct Olla {
       static void set_current_temp_raw();
       static void updateTemperaturesFromRawValues();
   };
+  extern Temperature tempManager;
 #endif // TEMPERATURE_H

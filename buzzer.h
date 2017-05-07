@@ -5,6 +5,7 @@
 #include "config.h"
 #include "fastio.h"
 #include "macros.h"
+#include "temperature.h"
 
 #define TONE_QUEUE_LENGTH 4
 
@@ -77,7 +78,7 @@ public:
   void tone(uint16_t const &duration, uint16_t const &frequency = 0) {
     while (buffer.isFull()) {
       this->tick();
-      //tempManager->manageTemp();
+     tempManager.manageTemp();
     }
     this->buffer.enqueue((tone_t){duration, frequency});
   }
