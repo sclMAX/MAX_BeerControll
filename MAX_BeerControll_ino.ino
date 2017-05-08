@@ -1,52 +1,66 @@
+/*
+* Beer Control v1.0 by MAX
+* 2017-05-07 inicio desarrollo
+* controlador para proceso de coccion de cerveza artesanal
+*/
 #include "ClickEncoder.h"
 #include "buzzer.h"
 #include "config.h"
+#include "macros.h"
+#include "menus.h"
 #include "pantalla.h"
 #include "temperature.h"
 #include <TimerOne.h>
-#include "menus.h"
 
 ClickEncoder *encoder;
-// Temperature *tempManager;
 Buzzer buzzer;
+TMenuItem menu[3];
 
-int16_t last, value;
+int16_t last, value, selMenu;
 
 void timerIsr() { encoder->service(); }
 
 void manageEncoder() {
   value -= encoder->getValue();
   if (value != last) {
-    value = (value >= 0) ? value : 2;
-    value = (value <= 2) ? value : 0;
+    if (isSubMenuOlla) {
+      if (encoderValue != value) {
+        encoderValue = value;
+        menu[selMenu].subMenu[0].select();
+      }
+    } else {
+      value = (value >= 0) ? value : 0;
+      value = (value <= COUNT(menu) - 1) ? value : COUNT(menu) - 1;
+      selMenu = value;
+      menu[value].menu.select();
+    }
     last = value;
-    //   buzzer.tone(500, 5000);
     Serial.print("Encoder Value: ");
     Serial.println(value);
   }
 
   ClickEncoder::Button b = encoder->getButton();
   if (b != ClickEncoder::Open) {
-#define VERBOSECASE(label)                                                     \
-  case label:                                                                  \
-    Serial.println(#label);                                                    \
-    break;
     switch (b) {
-      VERBOSECASE(ClickEncoder::Pressed)
-      VERBOSECASE(ClickEncoder::Held)
-      VERBOSECASE(ClickEncoder::Released)
+    case ClickEncoder::Pressed:
+      break;
+    case ClickEncoder::Held:
+      Serial.println("ClickEncoder::Held");
+      if (menu[selMenu].menu.held) {
+        menu[selMenu].menu.held();
+      }
+      break;
+    case ClickEncoder::Released:
+      Serial.println("ClickEncoder::Released");
+      if (menu[selMenu].menu.released) {
+        menu[selMenu].menu.released();
+        value = encoderValue;
+      }
+      break;
     case ClickEncoder::Clicked:
       Serial.println("ClickEncoder::Clicked");
-      switch (value){
-        case 0 :
-          tempManager.Licor.isCalentar = !tempManager.Licor.isCalentar;
-          break;
-        case 1 :
-          tempManager.Macerador.isCalentar = !tempManager.Macerador.isCalentar;
-          break;
-        case 2 :
-          tempManager.Hervido.isCalentar = !tempManager.Hervido.isCalentar;
-          break;
+      if (menu[selMenu].menu.click) {
+        menu[selMenu].menu.click();
       }
       break;
     case ClickEncoder::DoubleClicked:
@@ -70,16 +84,14 @@ void setup() {
   Timer1.attachInterrupt(timerIsr);
   last = -1;
   tempManager.init();
+  initMenus(menu);
   tempManager.Licor.etiqueta = 'L';
   tempManager.Macerador.etiqueta = 'M';
   tempManager.Hervido.etiqueta = 'H';
-  tempManager.Licor.tempTarget = 80;
-  tempManager.Macerador.tempTarget = 67;
-  tempManager.Hervido.tempTarget = 23;
 }
 
 void loop() {
-  manageEncoder();
   tempManager.manageTemp();
-  prueba(last);
+  manageEncoder();
+  updateLCD();
 }
