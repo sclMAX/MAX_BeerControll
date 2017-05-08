@@ -7,6 +7,8 @@
 #define ENSTP 4
 // Buzzer Config
 #define BEEPER_PIN 37
+// SD Config
+#define SD_DETECT_PIN 49
 // LCD config
 #define LCD_PINS_RS 16
 #define LCD_PINS_ENABLE 17
