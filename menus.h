@@ -24,22 +24,20 @@ typedef struct {
   TMenu subMenu[4];
 } TMenuItem;
 
-volatile int16_t encoderValue, encoderInitValue = 0;
-
 // LICOR MENU
 void licorSelect() {
   isLicorSel = true;
   isMaceradorSel = isHervidoSel = false;
 };
 void licorClick() {
-  if (!isSubMenuOlla) {
-    tempManager.Licor.isCalentar = !tempManager.Licor.isCalentar;
+  if (selSubMenu > -1) {
+    selSubMenu = -1;
   } else {
-    isSubMenuOlla = false;
+    tempManager.Licor.isCalentar = !tempManager.Licor.isCalentar;
   }
   licorSelect();
 };
-void licorHeld() { isSubMenuOlla = true; };
+void licorHeld() { selSubMenu = 0; };
 void licorReleased() { encoderValue = (int)tempManager.Licor.tempTarget; }
 // LICOR SUBMENU
 void licorSubSelect() { tempManager.Licor.tempTarget = (float)encoderValue; };
@@ -50,14 +48,14 @@ void maceradorSelect() {
   isLicorSel = isHervidoSel = false;
 };
 void maceradorClick() {
-  if (!isSubMenuOlla) {
-    tempManager.Macerador.isCalentar = !tempManager.Macerador.isCalentar;
+  if (selSubMenu > -1) {
+    selSubMenu = -1;
   } else {
-    isSubMenuOlla = false;
+    tempManager.Macerador.isCalentar = !tempManager.Macerador.isCalentar;
   }
   maceradorSelect();
 };
-void maceradorHeld() { isSubMenuOlla = true; };
+void maceradorHeld() { selSubMenu = 0; };
 void maceradorReleased() {
   encoderValue = (int)tempManager.Macerador.tempTarget;
 };
@@ -72,14 +70,14 @@ void hervidoSelect() {
   isLicorSel = isMaceradorSel = false;
 };
 void hervidoClick() {
-  if (!isSubMenuOlla) {
-    tempManager.Hervido.isCalentar = !tempManager.Hervido.isCalentar;
+  if (selSubMenu > -1) {
+    selSubMenu = -1;
   } else {
-    isSubMenuOlla = false;
+    tempManager.Hervido.isCalentar = !tempManager.Hervido.isCalentar;
   }
   hervidoSelect();
 };
-void hervidoHeld() { isSubMenuOlla = true; };
+void hervidoHeld() { selSubMenu = 0; };
 void hervidoReleased() { encoderValue = (int)tempManager.Hervido.tempTarget; };
 // HERVIDO SUBMENU
 void hervidoSubSelect() {

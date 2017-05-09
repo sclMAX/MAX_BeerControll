@@ -1,6 +1,7 @@
 #ifndef BEEPERCONTROL_H
 #define BEEPERCONTROL_H
 
+#include "macros.h"
 #include "fastio.h"
 #include "config.h"
 

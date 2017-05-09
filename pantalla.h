@@ -8,7 +8,7 @@
 
 U8GLIB_ST7920_128X64_1X u8g(LCD_PINS_D4, LCD_PINS_ENABLE,
                             LCD_PINS_RS); // SPI Com: (SCK, MOSI, CS)
-
+volatile int16_t encoderValue = 0, selMenu = -1, selSubMenu = -1;
 #define FONT_5X8 u8g_font_5x8
 #define FONT_5X5 u8g_font_chikita
 #define OLLA_WIDTH 20
@@ -17,7 +17,6 @@ U8GLIB_ST7920_128X64_1X u8g(LCD_PINS_D4, LCD_PINS_ENABLE,
 volatile bool isLicorSel = false;
 volatile bool isMaceradorSel = false;
 volatile bool isHervidoSel = false;
-volatile bool isSubMenuOlla = false;
 
 //  DRAW OLLA
 inline void drawOlla(u8g_uint_t x, u8g_uint_t y, bool sel, Olla &olla) {
@@ -27,6 +26,7 @@ inline void drawOlla(u8g_uint_t x, u8g_uint_t y, bool sel, Olla &olla) {
   u8g_uint_t ollaIntAlto = ollaAlto - 1;
   u8g_uint_t charH = 5;
   u8g_uint_t charW = 5;
+  //*** OLLA ***
   u8g.drawBox(x, y, ollaAncho, ollaAlto);
   u8g.setColorIndex(0); //  white on black
   u8g.drawBox(x + 1, y, ollaIntAncho, ollaIntAlto);
@@ -37,10 +37,11 @@ inline void drawOlla(u8g_uint_t x, u8g_uint_t y, bool sel, Olla &olla) {
     updown = !updown;
     u8g.drawBox(i, y1, 1, 1);
   }
+  //*** ETIQUETA ***
   u8g.setFont(FONT_5X5);
   charW = 5;
   charH = 5;
-  if (sel && !isSubMenuOlla) {
+  if (sel && (selSubMenu == -1)) {
     u8g.setColorIndex(1); //  white on black
     u8g.drawBox((x + ((ollaAncho - ollaIntAncho) / 2) + 1), y + 7,
                 (ollaIntAncho - 2), (ollaIntAlto - 8));
@@ -48,15 +49,14 @@ inline void drawOlla(u8g_uint_t x, u8g_uint_t y, bool sel, Olla &olla) {
   } else {
     u8g.setColorIndex(1); //  white on black
   }
-  //*** ETIQUETA ***
   u8g.setPrintPos((x + (ollaAncho / 2) - (charH / 2)), y + 15);
   u8g.print(olla.etiqueta);
   //*** TARGET TEMPERATURA ***
-  if (isSubMenuOlla && sel) {
+  if ((selSubMenu != -1) && sel) {
     u8g.setColorIndex(1);
-    u8g.drawBox(x,0,ollaAncho,10);
+    u8g.drawBox(x, 0, ollaAncho, 10);
     u8g.setColorIndex(0);
-  }else{
+  } else {
     u8g.setColorIndex(1);
   }
   u8g.setFont(FONT_5X8);
@@ -103,7 +103,7 @@ void updateLCD() {
   } while (u8g.nextPage());
 
   // rebuild the picture after some delay
-   delay(100);
+  delay(100);
 }
 
 #endif // PANTALLA_H
