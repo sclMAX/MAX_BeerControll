@@ -4,6 +4,8 @@
 #include "macros.h"
 #include "pantalla.h"
 #include "temperature.h"
+#include "config.h"
+#include "Arduino.h"
 
 #define MLICOR 0
 #define MMACERADOR 1
@@ -24,6 +26,14 @@ typedef struct {
   TMenu subMenu[4];
 } TMenuItem;
 
+int16_t chkEncoderValue(int16_t minimo, int16_t maximo) {
+  encoderValue = (encoderValue >= minimo) ? encoderValue : minimo;
+  encoderValue = (encoderValue <= maximo) ? encoderValue : maximo;
+  Serial.print("encoderValue(chk):");
+  Serial.println(encoderValue);
+  return encoderValue;
+}
+
 // LICOR MENU
 void licorSelect() {
   isLicorSel = true;
@@ -40,7 +50,14 @@ void licorClick() {
 void licorHeld() { selSubMenu = 0; };
 void licorReleased() { encoderValue = (int)tempManager.Licor.tempTarget; }
 // LICOR SUBMENU
-void licorSubSelect() { tempManager.Licor.tempTarget = (float)encoderValue; };
+void licorSubSelect() {
+  Serial.print("Licor.tempTarget:");
+  Serial.println(tempManager.Licor.tempTarget);
+  Serial.print("encoderValue:");
+  Serial.println(encoderValue);
+  tempManager.Licor.tempTarget =
+      (float)chkEncoderValue(TEMP_TARGET_MIN, TEMP_TARGET_MAX);
+};
 
 // MACERADOR MENU
 void maceradorSelect() {
@@ -61,7 +78,8 @@ void maceradorReleased() {
 };
 // MACERADOR SUBMENU
 void maceradorSubSelect() {
-  tempManager.Macerador.tempTarget = (float)encoderValue;
+  tempManager.Macerador.tempTarget =
+      (float)chkEncoderValue(TEMP_TARGET_MIN, TEMP_TARGET_MAX);
 };
 
 // HERVIDO MENU
@@ -81,7 +99,8 @@ void hervidoHeld() { selSubMenu = 0; };
 void hervidoReleased() { encoderValue = (int)tempManager.Hervido.tempTarget; };
 // HERVIDO SUBMENU
 void hervidoSubSelect() {
-  tempManager.Hervido.tempTarget = (float)encoderValue;
+  tempManager.Hervido.tempTarget =
+      (float)chkEncoderValue(TEMP_TARGET_MIN, TEMP_TARGET_MAX);
 }
 
 // INICIALIZACION DE MENUS

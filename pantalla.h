@@ -9,23 +9,23 @@
 U8GLIB_ST7920_128X64_1X u8g(LCD_PINS_D4, LCD_PINS_ENABLE,
                             LCD_PINS_RS); // SPI Com: (SCK, MOSI, CS)
 volatile int16_t encoderValue = 0, selMenu = -1, selSubMenu = -1;
-#define FONT_5X8 u8g_font_5x8
-#define FONT_5X5 u8g_font_chikita
+#define FONT_TEMP_TARGET                                                       \
+  u8g_font_5x8                 // u8g_font_unifont_4_5 //u8g_font_unifont_0_8
+#define FONT_TEMP u8g_font_5x8 // u8g_font_chikita
+#define FONT_ETIQUETA u8g_font_chikita // u8g_font_unifont
 #define OLLA_WIDTH 20
-#define OLLA_HEIGTH 20
+#define OLLA_HEIGTH 14
 
 volatile bool isLicorSel = false;
 volatile bool isMaceradorSel = false;
 volatile bool isHervidoSel = false;
 
 //  DRAW OLLA
-inline void drawOlla(u8g_uint_t x, u8g_uint_t y, bool sel, Olla &olla) {
+void drawOlla(u8g_uint_t x, u8g_uint_t y, bool sel, Olla &olla) {
   u8g_uint_t ollaAlto = OLLA_HEIGTH;
   u8g_uint_t ollaAncho = OLLA_WIDTH;
   u8g_uint_t ollaIntAncho = ollaAncho - 2;
   u8g_uint_t ollaIntAlto = ollaAlto - 1;
-  u8g_uint_t charH = 5;
-  u8g_uint_t charW = 5;
   //*** OLLA ***
   u8g.drawBox(x, y, ollaAncho, ollaAlto);
   u8g.setColorIndex(0); //  white on black
@@ -38,18 +38,19 @@ inline void drawOlla(u8g_uint_t x, u8g_uint_t y, bool sel, Olla &olla) {
     u8g.drawBox(i, y1, 1, 1);
   }
   //*** ETIQUETA ***
-  u8g.setFont(FONT_5X5);
-  charW = 5;
-  charH = 5;
+  u8g.setFont(FONT_ETIQUETA);
   if (sel && (selSubMenu == -1)) {
     u8g.setColorIndex(1); //  white on black
-    u8g.drawBox((x + ((ollaAncho - ollaIntAncho) / 2) + 1), y + 7,
-                (ollaIntAncho - 2), (ollaIntAlto - 8));
+    u8g.drawBox((x + ((ollaAncho - ollaIntAncho) / 2) + 1), y + 6,
+                (ollaIntAncho - 2), (ollaIntAlto - 7));
     u8g.setColorIndex(0); //  white on black
   } else {
     u8g.setColorIndex(1); //  white on black
   }
-  u8g.setPrintPos((x + (ollaAncho / 2) - (charH / 2)), y + 15);
+  u8g.setPrintPos((x + (ollaAncho / 2) -
+                   ((u8g.getStrWidth(charToChar(olla.etiqueta)) / 2))),
+                  y + 6 + ((ollaIntAlto - 7) / 2));
+  u8g.setFontPosCenter();
   u8g.print(olla.etiqueta);
   //*** TARGET TEMPERATURA ***
   if ((selSubMenu != -1) && sel) {
@@ -59,14 +60,14 @@ inline void drawOlla(u8g_uint_t x, u8g_uint_t y, bool sel, Olla &olla) {
   } else {
     u8g.setColorIndex(1);
   }
-  u8g.setFont(FONT_5X8);
+  u8g.setFont(FONT_TEMP_TARGET);
   u8g.setPrintPos(x + (ollaAncho / 2) -
                       (u8g.getStrWidth(itostr3left(olla.tempTarget)) / 2),
                   y);
   u8g.print(itostr3left(olla.tempTarget));
   //*** TEMPERATURA ***
   u8g.setColorIndex(1);
-  u8g.setFont(FONT_5X8);
+  u8g.setFont(FONT_TEMP);
   u8g.setPrintPos(x + (ollaAncho / 2) -
                       (u8g.getStrWidth(itostr3left(olla.temperatura)) / 2),
                   y + ollaAlto + (u8g.getFontAscent() - u8g.getFontDescent()) +
@@ -84,6 +85,9 @@ inline void drawOlla(u8g_uint_t x, u8g_uint_t y, bool sel, Olla &olla) {
   }
 
 } // DRAW OLLA
+
+// DRAW BOMBA
+void drawBomba(u8g_uint_t x, u8g_uint_t y, bool sel) {} // DRAW BOMBA
 
 void updateLCD() {
   // picture loop
@@ -103,7 +107,7 @@ void updateLCD() {
   } while (u8g.nextPage());
 
   // rebuild the picture after some delay
-  delay(100);
+  delay(300);
 }
 
 #endif // PANTALLA_H

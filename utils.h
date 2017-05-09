@@ -29,6 +29,12 @@ char *itostr3(const int &x) {
   return conv;
 }
 
+char *charToChar(const char &c){
+  conv[0] = c;
+  conv[1] = '\0';
+  return conv;
+}
+
 // Convert signed int to rj string with _123, -123, _-12, or __-1 format
 char *itostr4sign(const int &x) {
   int xx = abs(x);

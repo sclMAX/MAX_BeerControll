@@ -17,7 +17,7 @@
 
 struct Olla {
   volatile float temperatura = 0.00;
-  float tempTarget = 25;
+  float tempTarget = TEMP_TARGET_MIN;
   volatile bool isCalentar = false;
   volatile bool isQuemadorOn = false;
   float histeresisSup = 0.00;

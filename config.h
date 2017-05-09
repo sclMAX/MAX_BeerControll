@@ -1,5 +1,9 @@
 #ifndef CONFIG_H
 #define CONFIG_H
+
+/*
+*   PINS
+*/
 // Encoder Config
 #define EN1 31
 #define EN2 33
@@ -24,6 +28,11 @@
 #define QUEMADOR_LICOR_PIN 10
 #define QUEMADOR_MACERADOR_PIN 9
 #define QUEMADOR_HERVIDO_PIN 8
+/*
+*   TEMPERATURAS
+*/
+#define TEMP_TARGET_MAX 110
+#define TEMP_TARGET_MIN 30
 // Types
 typedef unsigned long millis_t;
 #endif

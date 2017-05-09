@@ -25,15 +25,19 @@ void manageEncoder() {
     if (selSubMenu > -1) {
       if (encoderValue != value) {
         encoderValue = value;
-        if (menu[selMenu].subMenu[selSubMenu].select)
+        if (menu[selMenu].subMenu[selSubMenu].select) {
           menu[selMenu].subMenu[selSubMenu].select();
+          value = encoderValue;
+        }
       }
     } else {
       value = (value >= 0) ? value : COUNT(menu) - 1;
       value = (value <= COUNT(menu) - 1) ? value : 0;
       selMenu = value;
-      if (menu[value].menu.select)
-        menu[value].menu.select();
+      if (menu[selMenu].menu.select) {
+        menu[selMenu].menu.select();
+        value = selMenu;
+      }
     }
     last = value;
     Serial.print("Encoder Value: ");
@@ -61,13 +65,14 @@ void manageEncoder() {
       }
       break;
     case ClickEncoder::Clicked:
-      beeper.beep(200);
+      beeper.beep1(150);
       Serial.println("ClickEncoder::Clicked");
       if (menu[selMenu].menu.click) {
         menu[selMenu].menu.click();
       }
       break;
     case ClickEncoder::DoubleClicked:
+      beeper.beep2(150);
       Serial.println("ClickEncoder::DoubleClicked");
       encoder->setAccelerationEnabled(!encoder->getAccelerationEnabled());
       Serial.print("  Acceleration is ");
@@ -87,7 +92,6 @@ void setup() {
   last = -1;
   tempManager.init();
   initMenus(menu);
-  beeper.update(millis());
   tempManager.Licor.etiqueta = 'L';
   tempManager.Macerador.etiqueta = 'M';
   tempManager.Hervido.etiqueta = 'H';
