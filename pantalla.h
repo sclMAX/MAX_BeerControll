@@ -14,7 +14,7 @@ volatile int16_t encoderValue = 0, selMenu = -1, selSubMenu = -1;
 #define FONT_TEMP u8g_font_5x8 // u8g_font_chikita
 #define FONT_ETIQUETA u8g_font_chikita // u8g_font_unifont
 #define OLLA_WIDTH 20
-#define OLLA_HEIGTH 14
+#define OLLA_HEIGTH 16
 
 volatile bool isLicorSel = false;
 volatile bool isMaceradorSel = false;
