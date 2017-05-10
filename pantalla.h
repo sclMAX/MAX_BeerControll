@@ -6,6 +6,7 @@
 #include <U8glib.h>
 #include <stdlib.h>
 #include "imagenes.h"
+#include "config.h"
 
 U8GLIB_ST7920_128X64_1X u8g(LCD_PINS_D4, LCD_PINS_ENABLE,
                             LCD_PINS_RS); // SPI Com: (SCK, MOSI, CS)
@@ -14,6 +15,14 @@ U8GLIB_ST7920_128X64_1X u8g(LCD_PINS_D4, LCD_PINS_ENABLE,
 #define P_INICIO 1
 
 int16_t pantalla = P_SPLASH;
+typedef struct {
+  unsigned int anio = 2017;
+  unsigned int mes = 01;
+  unsigned int dia = 01;
+  unsigned int hora = 12;
+  unsigned int minuto = 0;
+} TFechaNow;
+TFechaNow fechaNow;
 
 volatile int16_t encoderValue = 0, selMenu = -1, selSubMenu = -1;
 volatile bool isSplashScreen = true;
@@ -109,15 +118,36 @@ void showSplash() {
   u8g.firstPage();
   do {
     u8g_uint_t logoHeight = 41;
-    u8g.setFontPosTop();
+
     u8g.drawBitmapP(0, 0, LOGO_WIDTH, LOGO_HEIGHT, logo);
     u8g.setColorIndex(1);
     u8g.setFont(FONT_VERSION);
+    u8g.setFontPosTop();
     u8g.drawStr((u8g.getWidth() - (u8g.getStrWidth(VERSION))), (logoHeight + 1),
                 VERSION);
     u8g.setFont(FONT_FECHA);
+    u8g.setFontPosTop();
+    u8g.setPrintPos(1, (logoHeight + 10));
+    u8g.print(fechaNow.dia);
+    u8g.print("0/");
+    u8g.print(fechaNow.mes);
+    u8g.print("2/");
+    u8g.print(fechaNow.anio);
+    u8g.print(" ");
+    u8g.print(fechaNow.hora);
+    u8g.print(":0");
+    u8g.print(fechaNow.minuto);
+    u8g.setFont(FONT_ETIQUETA);
+    u8g.setFontPosBottom();
+    u8g_uint_t x = u8g.getWidth() - (u8g.getStrWidth("INICIO") + 4) - 2;
+    u8g_uint_t y = u8g.getHeight() - (u8g.getFontAscent() + 4 - u8g.getFontDescent()) - 2;
+    u8g.drawFrame(x, y, (u8g.getStrWidth("INICIO") + 4) + 2, (u8g.getFontAscent() + 4 - u8g.getFontDescent()) + 2);
+    u8g.drawStr((u8g.getWidth() - (u8g.getStrWidth("INICIO")) - 2),
+                (u8g.getHeight() - 3), "INICIO");
 
   } while (u8g.nextPage());
+  delay(3000);
+  pantalla = P_INICIO;
 } // SPLASH SCREEN
 
 // INICIO

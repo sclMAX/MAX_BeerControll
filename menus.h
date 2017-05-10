@@ -2,6 +2,7 @@
 #define MENUS_H
 
 #include "Arduino.h"
+#include <stdlib.h>
 #include "config.h"
 #include "macros.h"
 #include "pantalla.h"

@@ -6,12 +6,18 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include "config.h"
 /*********************************/
 /** Number to string conversion **/
 /*********************************/
 
 #define DIGIT(n) ('0' + (n))
 #define DIGIMOD(n) DIGIT((n) % 10)
+char *strToChar(const String &s) {
+  char c[s.length()];
+  s.toCharArray(c, s.length());
+  return c;
+}
 
 char conv[8];
 // Convert signed int to rj string with 123 or -12 format
@@ -29,7 +35,7 @@ char *itostr3(const int &x) {
   return conv;
 }
 
-char *charToChar(const char &c){
+char *charToChar(const char &c) {
   conv[0] = c;
   conv[1] = '\0';
   return conv;

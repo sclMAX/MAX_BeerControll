@@ -1,6 +1,10 @@
 #ifndef CONFIG_H
 #define CONFIG_H
 
+
+#include "Arduino.h"
+#include <stdlib.h>
+
 #define VERSION "ver. 1.0 by MAX"
 /*
 *   PINS
@@ -36,12 +40,4 @@
 #define TEMP_TARGET_MIN 30
 // Types
 typedef unsigned long millis_t;
-typedef struct{
-    uint_t anio = 2017;
-    uint_t mes = 01;
-    uint_t dia = 01;
-    uint_t hora = 12;
-    uint_t minuto = 0;
-}TFecha;
-TFecha fecha;
 #endif
