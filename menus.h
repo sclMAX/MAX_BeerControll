@@ -1,11 +1,11 @@
 #ifndef MENUS_H
 #define MENUS_H
 
+#include "Arduino.h"
+#include "config.h"
 #include "macros.h"
 #include "pantalla.h"
 #include "temperature.h"
-#include "config.h"
-#include "Arduino.h"
 
 #define MLICOR 0
 #define MMACERADOR 1
@@ -29,8 +29,6 @@ typedef struct {
 int16_t chkEncoderValue(int16_t minimo, int16_t maximo) {
   encoderValue = (encoderValue >= minimo) ? encoderValue : minimo;
   encoderValue = (encoderValue <= maximo) ? encoderValue : maximo;
-  Serial.print("encoderValue(chk):");
-  Serial.println(encoderValue);
   return encoderValue;
 }
 
@@ -51,10 +49,6 @@ void licorHeld() { selSubMenu = 0; };
 void licorReleased() { encoderValue = (int)tempManager.Licor.tempTarget; }
 // LICOR SUBMENU
 void licorSubSelect() {
-  Serial.print("Licor.tempTarget:");
-  Serial.println(tempManager.Licor.tempTarget);
-  Serial.print("encoderValue:");
-  Serial.println(encoderValue);
   tempManager.Licor.tempTarget =
       (float)chkEncoderValue(TEMP_TARGET_MIN, TEMP_TARGET_MAX);
 };
