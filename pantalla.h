@@ -5,14 +5,23 @@
 #include "utils.h"
 #include <U8glib.h>
 #include <stdlib.h>
+#include "imagenes.h"
 
 U8GLIB_ST7920_128X64_1X u8g(LCD_PINS_D4, LCD_PINS_ENABLE,
                             LCD_PINS_RS); // SPI Com: (SCK, MOSI, CS)
+
+#define P_SPLASH 0
+#define P_INICIO 1
+
+int16_t pantalla = P_SPLASH;
+
 volatile int16_t encoderValue = 0, selMenu = -1, selSubMenu = -1;
-#define FONT_TEMP_TARGET                                                       \
-  u8g_font_5x8                 // u8g_font_unifont_4_5 //u8g_font_unifont_0_8
-#define FONT_TEMP u8g_font_5x8 // u8g_font_chikita
+volatile bool isSplashScreen = true;
+#define FONT_TEMP_TARGET u8g_font_5x8
+#define FONT_TEMP u8g_font_5x8         // u8g_font_chikita
 #define FONT_ETIQUETA u8g_font_chikita // u8g_font_unifont
+#define FONT_VERSION u8g_font_baby
+#define FONT_FECHA u8g_font_chikita
 #define OLLA_WIDTH 20
 #define OLLA_HEIGTH 16
 
@@ -87,10 +96,32 @@ void drawOlla(u8g_uint_t x, u8g_uint_t y, bool sel, Olla &olla) {
 } // DRAW OLLA
 
 // DRAW BOMBA
-void drawBomba(u8g_uint_t x, u8g_uint_t y, bool sel) {} // DRAW BOMBA
+void drawBomba(u8g_uint_t x, u8g_uint_t y, bool sel) {
+  u8g.setColorIndex(1);
+  if ((sel) && (selSubMenu == -1)) {
+    // u8g.drawCi
+  }
 
-void updateLCD() {
-  // picture loop
+} // DRAW BOMBA
+
+// SPLASH SCREEN
+void showSplash() {
+  u8g.firstPage();
+  do {
+    u8g_uint_t logoHeight = 41;
+    u8g.setFontPosTop();
+    u8g.drawBitmapP(0, 0, LOGO_WIDTH, LOGO_HEIGHT, logo);
+    u8g.setColorIndex(1);
+    u8g.setFont(FONT_VERSION);
+    u8g.drawStr((u8g.getWidth() - (u8g.getStrWidth(VERSION))), (logoHeight + 1),
+                VERSION);
+    u8g.setFont(FONT_FECHA);
+
+  } while (u8g.nextPage());
+} // SPLASH SCREEN
+
+// INICIO
+void showInicio() {
   u8g.firstPage();
   u8g_uint_t anchoPantalla = u8g.getWidth();
   u8g_uint_t licorX = 3;
@@ -105,7 +136,18 @@ void updateLCD() {
     // HERVIDO
     drawOlla(hervidoX, todasY, isHervidoSel, tempManager.Hervido);
   } while (u8g.nextPage());
+} // INICIO
 
+void updateLCD() {
+  // picture loop
+  switch (pantalla) {
+  case P_SPLASH:
+    showSplash();
+    break;
+  case P_INICIO:
+    showInicio();
+    break;
+  }
   // rebuild the picture after some delay
   delay(300);
 }

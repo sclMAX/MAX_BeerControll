@@ -26,6 +26,8 @@ typedef struct {
   TMenu subMenu[4];
 } TMenuItem;
 
+TMenuItem menu[3];
+
 int16_t chkEncoderValue(int16_t minimo, int16_t maximo) {
   encoderValue = (encoderValue >= minimo) ? encoderValue : minimo;
   encoderValue = (encoderValue <= maximo) ? encoderValue : maximo;
