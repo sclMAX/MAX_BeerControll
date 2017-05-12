@@ -2,6 +2,7 @@
 #define MENUS_H
 
 #include "Arduino.h"
+#include "uidata.h"
 #include <stdlib.h>
 #include "config.h"
 #include "macros.h"
@@ -11,21 +12,6 @@
 #define MLICOR 0
 #define MMACERADOR 1
 #define MHERVIDO 2
-
-typedef void (*screenFunc_t)();
-typedef struct {
-  screenFunc_t select;
-  screenFunc_t click;
-  screenFunc_t doubleClick;
-  screenFunc_t held;
-  screenFunc_t released;
-  screenFunc_t pressed;
-} TMenu;
-
-typedef struct {
-  TMenu menu;
-  TMenu subMenu[4];
-} TMenuItem;
 
 TMenuItem menu[3];
 

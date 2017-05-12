@@ -6,7 +6,9 @@
 
 #include "config.h"
 #include "encoderControl.h"
+#include "uiInicio.h"
 #include "temperature.h"
+#include "Reloj.h"
 #include <TimerOne.h>
 
 void setup() {
@@ -18,9 +20,7 @@ void setup() {
   last = -1;
   tempManager.init();
   initMenus(menu);
-  tempManager.Licor.etiqueta = 'L';
-  tempManager.Macerador.etiqueta = 'M';
-  tempManager.Hervido.etiqueta = 'H';
+  setTime(10,30,0,11,5,2017); //setTime(hr,min,sec,day,month,yr); 
 }
 
 void loop() {

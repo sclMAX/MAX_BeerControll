@@ -36,6 +36,9 @@ Temperature::Temperature() {
   SET_OUTPUT(QUEMADOR_LICOR_PIN);
   SET_OUTPUT(QUEMADOR_MACERADOR_PIN);
   SET_OUTPUT(QUEMADOR_HERVIDO_PIN);
+  Licor.etiqueta = 'L';
+  Macerador.etiqueta = 'M';
+  Hervido.etiqueta = 'H';
 }
 
 /**
@@ -48,7 +51,7 @@ void Temperature::manageTemp() {
   updateTemperaturesFromRawValues();
 } // manage_heateu
 
-#define PGM_RD_W(x) (short)pgm_read_word(&x)
+#define PGM_RD_W(x) (short) pgm_read_word(&x)
 
 // Derived from RepRap FiveD extruder::getTemperature()
 // For bed temperature measurement.
@@ -149,7 +152,7 @@ void Temperature::updateTemperaturesFromRawValues() {
     Hervido.isQuemadorOn = false;
   }
   // FIN OLLA MACERADOR
-  
+
   CRITICAL_SECTION_START;
   temp_meas_ready = false;
   CRITICAL_SECTION_END;

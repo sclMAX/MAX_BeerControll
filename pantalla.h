@@ -1,15 +1,12 @@
 #ifndef PANTALLA_H
 #define PANTALLA_H
 
+#include "uidata.h"
 #include "temperature.h"
 #include "utils.h"
-#include <U8glib.h>
-#include <stdlib.h>
 #include "imagenes.h"
-#include "config.h"
 
-U8GLIB_ST7920_128X64_1X u8g(LCD_PINS_D4, LCD_PINS_ENABLE,
-                            LCD_PINS_RS); // SPI Com: (SCK, MOSI, CS)
+
 
 #define P_SPLASH 0
 #define P_INICIO 1
@@ -24,7 +21,6 @@ typedef struct {
 } TFechaNow;
 TFechaNow fechaNow;
 
-volatile int16_t encoderValue = 0, selMenu = -1, selSubMenu = -1;
 volatile bool isSplashScreen = true;
 #define FONT_TEMP_TARGET u8g_font_5x8
 #define FONT_TEMP u8g_font_5x8         // u8g_font_chikita
@@ -167,9 +163,8 @@ void showInicio() {
     drawOlla(hervidoX, todasY, isHervidoSel, tempManager.Hervido);
   } while (u8g.nextPage());
 } // INICIO
-
+//<UPDATE LCD>
 void updateLCD() {
-  // picture loop
   switch (pantalla) {
   case P_SPLASH:
     showSplash();
@@ -178,8 +173,7 @@ void updateLCD() {
     showInicio();
     break;
   }
-  // rebuild the picture after some delay
   delay(300);
-}
+} //</UPDATE LCD>
 
 #endif // PANTALLA_H

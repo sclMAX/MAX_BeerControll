@@ -1,7 +1,6 @@
 #ifndef CONFIG_H
 #define CONFIG_H
 
-
 #include "Arduino.h"
 #include <stdlib.h>
 
@@ -38,6 +37,16 @@
 */
 #define TEMP_TARGET_MAX 110
 #define TEMP_TARGET_MIN 30
+/*
+*   FONTS
+*/
+#define FONT_TEMP_TARGET u8g_font_5x8
+#define FONT_TEMP u8g_font_5x8         // u8g_font_chikita
+#define FONT_ETIQUETA u8g_font_chikita // u8g_font_unifont
+#define FONT_VERSION u8g_font_baby
+#define FONT_FECHA u8g_font_chikita
+
 // Types
 typedef unsigned long millis_t;
+typedef void (*screenFunc_t)();
 #endif
