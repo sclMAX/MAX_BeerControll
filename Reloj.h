@@ -1,9 +1,12 @@
 #ifndef RELOJ_H
 #define RELOJ_H
 
+#include "Arduino.h"
 #include <Time.h>
 #include <TimeLib.h>
-#include "Arduino.h"
+
+#define SEPARADOR_FECHA "/"
+#define SEPARADOR_HORA ":"
 
 char *anioStr() {
   char c[4];

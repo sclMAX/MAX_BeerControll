@@ -6,7 +6,7 @@
 
 #include "config.h"
 #include "encoderControl.h"
-#include "uiInicio.h"
+#include "uiSplash.h"
 #include "temperature.h"
 #include "Reloj.h"
 #include <TimerOne.h>
@@ -17,7 +17,6 @@ void setup() {
   encoder = new ClickEncoder(EN1, EN2, ENC, ENSTP);
   Timer1.initialize(1000);
   Timer1.attachInterrupt(timerIsr);
-  last = -1;
   tempManager.init();
   initMenus(menu);
   setTime(10,30,0,11,5,2017); //setTime(hr,min,sec,day,month,yr); 

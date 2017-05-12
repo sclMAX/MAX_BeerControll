@@ -4,14 +4,7 @@
 #include "uidata.h"
 #include "temperature.h"
 #include "utils.h"
-#include "imagenes.h"
 
-
-
-#define P_SPLASH 0
-#define P_INICIO 1
-
-int16_t pantalla = P_SPLASH;
 typedef struct {
   unsigned int anio = 2017;
   unsigned int mes = 01;
@@ -22,11 +15,7 @@ typedef struct {
 TFechaNow fechaNow;
 
 volatile bool isSplashScreen = true;
-#define FONT_TEMP_TARGET u8g_font_5x8
-#define FONT_TEMP u8g_font_5x8         // u8g_font_chikita
-#define FONT_ETIQUETA u8g_font_chikita // u8g_font_unifont
-#define FONT_VERSION u8g_font_baby
-#define FONT_FECHA u8g_font_chikita
+
 #define OLLA_WIDTH 20
 #define OLLA_HEIGTH 16
 
@@ -136,20 +125,21 @@ void showSplash() {
     u8g.setFont(FONT_ETIQUETA);
     u8g.setFontPosBottom();
     u8g_uint_t x = u8g.getWidth() - (u8g.getStrWidth("INICIO") + 4) - 2;
-    u8g_uint_t y = u8g.getHeight() - (u8g.getFontAscent() + 4 - u8g.getFontDescent()) - 2;
-    u8g.drawFrame(x, y, (u8g.getStrWidth("INICIO") + 4) + 2, (u8g.getFontAscent() + 4 - u8g.getFontDescent()) + 2);
+    u8g_uint_t y =
+        u8g.getHeight() - (u8g.getFontAscent() + 4 - u8g.getFontDescent()) - 2;
+    u8g.drawFrame(x, y, (u8g.getStrWidth("INICIO") + 4) + 2,
+                  (u8g.getFontAscent() + 4 - u8g.getFontDescent()) + 2);
     u8g.drawStr((u8g.getWidth() - (u8g.getStrWidth("INICIO")) - 2),
                 (u8g.getHeight() - 3), "INICIO");
 
   } while (u8g.nextPage());
   delay(3000);
-  pantalla = P_INICIO;
+  currentUI = UI_INICIO;
 } // SPLASH SCREEN
 
 // INICIO
 void showInicio() {
   u8g.firstPage();
-  u8g_uint_t anchoPantalla = u8g.getWidth();
   u8g_uint_t licorX = 3;
   u8g_uint_t maceradorX = (anchoPantalla / 2) - (OLLA_WIDTH / 2);
   u8g_uint_t hervidoX = anchoPantalla - (OLLA_WIDTH + 3);
@@ -165,11 +155,11 @@ void showInicio() {
 } // INICIO
 //<UPDATE LCD>
 void updateLCD() {
-  switch (pantalla) {
-  case P_SPLASH:
+  switch (currentUI) {
+  case UI_SPLASH:
     showSplash();
     break;
-  case P_INICIO:
+  case UI_INICIO:
     showInicio();
     break;
   }
