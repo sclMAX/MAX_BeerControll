@@ -1,6 +1,6 @@
 {
     "board": "arduino:avr:mega",
     "configuration": "cpu=atmega2560",
-    "port": "COM4",
+    "port": "/dev/ttyACM0",
     "sketch": "MAX_BeerControll_ino.ino"
 }

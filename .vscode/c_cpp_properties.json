@@ -4,13 +4,19 @@
             "name": "Linux",
             "includePath": [
                 "/home/max/Programas/arduino-1.8.2/hardware/arduino/avr/cores/arduino",
-                "/home/max/Arduino/libraries/Time"
+                "/Documentos/Proyectos/Cerveza/MAX_BeerControll/",
+                "/home/max/Arduino/libraries/*",
+                "/home/max/Arduino/libraries/Time",
+                "/home/max/Arduino/libraries/TimerOne"
             ],
             "browse": {
                 "limitSymbolsToIncludedHeaders": false,
                 "path": [
                     "/home/max/Programas/arduino-1.8.2/hardware/arduino/avr/cores/arduino",
-                    "/home/max/Arduino/libraries/Time"
+                    "/Documentos/Proyectos/Cerveza/MAX_BeerControll/",
+                    "/home/max/Arduino/libraries/*",
+                    "/home/max/Arduino/libraries/Time",
+                    "/home/max/Arduino/libraries/TimerOne"
                 ]
             }
         }

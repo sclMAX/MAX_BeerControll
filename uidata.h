@@ -2,11 +2,11 @@
 #define UIDATA_H
 
 #include "Arduino.h"
-#include "config.h"
 #include "beeperControl.h"
+#include "config.h"
 #include "imagenes.h"
-#include <stdlib.h>
 #include <U8glib.h>
+#include <stdlib.h>
 
 U8GLIB_ST7920_128X64_1X u8g(LCD_PINS_D4, LCD_PINS_ENABLE,
                             LCD_PINS_RS); // SPI Com: (SCK, MOSI, CS)
@@ -22,7 +22,6 @@ u8g_uint_t LCDH = u8g.getHeight();
 #define FONT_FECHA u8g_font_chikita
 //</FONTS>
 
-
 typedef void (*screenFunc_t)();
 typedef struct {
   screenFunc_t select;
@@ -37,9 +36,9 @@ typedef struct {
   TMenu subMenu[];
 } TMenuItem;
 
-extern TMenuItem *currentMenu = 0;
-int16_t encoderLast = -1, encoderValue = 0;
-int16_t selMenu = -1, selSubMenu = -1;
+TMenuItem mSplash[6];
+ int16_t ecLast = -1, ecValue = 0, encoderValue;
+ int16_t selMenu = 0, selSubMenu = -1;
 
 #define UI_SPLASH 0
 #define UI_INICIO 1
