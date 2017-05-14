@@ -76,6 +76,14 @@ void imHervidoSubMenuSelect() {
       (float)chkEncoderValue(TEMP_TARGET_MIN, TEMP_TARGET_MAX);
 }
 //</HERVIDO>
+//<CONFIG>
+void imConfigMenuClick() {
+  cli();
+  currentUI = UI_CONFIG;
+  selMenu = 0;
+  sei();
+}
+//</CONFIG>
 
 //</MENU>
 //<LCD DRAW>
@@ -171,9 +179,9 @@ void drawHora(u8g_uint_t y) {
 //<BUTTON>
 void drawBtnConfig() {
   if (selMenu == imConfig) {
-    u8g.drawBitmapP(0, LCDH - 15, CONFIG_WIDTH, CONFIG_HEIGHT, config1);
+    u8g.drawBitmapP(LCDW - 15, LCDH - 15, CONFIG_WIDTH, CONFIG_HEIGHT, config1);
   } else {
-    u8g.drawBitmapP(0, LCDH - 15, CONFIG_WIDTH, CONFIG_HEIGHT, config);
+    u8g.drawBitmapP(LCDW - 15, LCDH - 15, CONFIG_WIDTH, CONFIG_HEIGHT, config);
   }
 }
 //</BUTTON>
@@ -220,5 +228,8 @@ void uiInicioInit() {
   mInicio[imHervido].subMenu.select = imHervidoSubMenuSelect;
   mInicio[imHervido].subMenu.click = SubMenuClick;
   //</HERVIDO>
+  //<CONFIG>
+  mInicio[imConfig].menu.click = imConfigMenuClick;
+  //</CONFIG>
 } //</INIT>
 #endif // UIINICIO_H

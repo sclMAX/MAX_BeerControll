@@ -22,6 +22,8 @@ u8g_uint_t LCDH = u8g.getHeight();
 #define FONT_VERSION u8g_font_baby
 #define FONT_FECHA u8g_font_chikita
 #define FONT_HORA u8g_font_chikita
+#define FONT_TITLE u8g_font_chikita
+#define FONT_CONFIG_ITEM u8g_font_chikita
 //</FONTS>
 //<MENUS>
 typedef void (*screenFunc_t)();
@@ -41,8 +43,11 @@ typedef struct {
 #define mSplashTam 6 // Dia Mes Año Hora Minuto Inicio
 TMenuItem mSplash[mSplashTam];
 
-#define mInicioTam 4  // Licor  Macerador  Hervido Config
+#define mInicioTam 4 // Licor  Macerador  Hervido Config
 TMenuItem mInicio[mInicioTam];
+
+#define mConfigTam 2
+TMenuItem mConfig[mConfigTam]; // Atras Olla
 
 //</MENUS>
 //<ENCODER>
@@ -53,6 +58,8 @@ volatile bool isInSubMenu = false;
 //<PANTALLAS>
 #define UI_SPLASH 0
 #define UI_INICIO 1
+#define UI_CONFIG 2
+#define UI_CONFIG_OLLAS 3
 
 int16_t currentUI = UI_SPLASH;
 //</PANTALLAS>
