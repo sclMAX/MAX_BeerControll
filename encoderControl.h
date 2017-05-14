@@ -10,36 +10,30 @@ ClickEncoder *encoder;
 
 void timerIsr() { encoder->service(); }
 
-void enSplash() {
+void procesarEC(TMenuItem menu[], int tam) {
+  ecValue -= encoder->getValue();
   if (ecValue != ecLast) {
-    if (selSubMenu > -1) {
-      if (mSplash[selMenu].subMenu[selSubMenu].select) {
-        mSplash[selMenu].subMenu[selSubMenu].select();
-      }
+    if (isInSubMenu) {
+      if (menu[selMenu].subMenu.select)
+        menu[selMenu].subMenu.select();
     } else {
-      encoderValue = (ecValue >= 0) ? ((ecValue < COUNT(mSplash)) ? ecValue : 0)
-                                    : COUNT(mSplash) - 1;
+      cli();
+      encoderValue = ecValue;
+      encoderValue = (encoderValue >= 0)
+                         ? ((encoderValue < tam) ? encoderValue : 0)
+                         : (tam - 1);
       selMenu = encoderValue;
-      if (mSplash[selMenu].menu.select) {
-        mSplash[selMenu].menu.select();
-      }
       ecValue = encoderValue;
+      sei();
     }
     ecLast = ecValue;
   }
-}
-
-void manageButtons(TMenuItem menu[]) {
   ClickEncoder::Button b = encoder->getButton();
   if (b != ClickEncoder::Open) {
     switch (b) {
     case ClickEncoder::Held:
       beeper.on();
-      if (selSubMenu > -1) {
-        if (menu[selMenu].subMenu[selSubMenu].held) {
-          menu[selMenu].subMenu[selSubMenu].held();
-        }
-      } else {
+      if (!isInSubMenu) {
         if (menu[selMenu].menu.held) {
           menu[selMenu].menu.held();
         }
@@ -47,21 +41,15 @@ void manageButtons(TMenuItem menu[]) {
       break;
     case ClickEncoder::Released:
       beeper.off();
-      if (selSubMenu > -1) {
-        if (menu[selMenu].subMenu[selSubMenu].released) {
-          menu[selMenu].subMenu[selSubMenu].released();
-        }
-      } else {
-        if (menu[selMenu].menu.released) {
-          menu[selMenu].menu.released();
-        }
+      if (menu[selMenu].menu.released) {
+        menu[selMenu].menu.released();
       }
       break;
     case ClickEncoder::Clicked:
       beeper.beep1(150);
-      if (selSubMenu > -1) {
-        if (menu[selMenu].subMenu[selSubMenu].click) {
-          menu[selMenu].subMenu[selSubMenu].click();
+      if (isInSubMenu) {
+        if (menu[selMenu].subMenu.click) {
+          menu[selMenu].subMenu.click();
         }
       } else {
         if (menu[selMenu].menu.click) {
@@ -71,9 +59,9 @@ void manageButtons(TMenuItem menu[]) {
       break;
     case ClickEncoder::DoubleClicked:
       beeper.beep2(150);
-      if (selSubMenu > -1) {
-        if (menu[selMenu].subMenu[selSubMenu].doubleClick) {
-          menu[selMenu].subMenu[selSubMenu].doubleClick();
+      if (isInSubMenu) {
+        if (menu[selMenu].subMenu.doubleClick) {
+          menu[selMenu].subMenu.doubleClick();
         }
       } else {
         if (menu[selMenu].menu.doubleClick) {
@@ -86,11 +74,12 @@ void manageButtons(TMenuItem menu[]) {
 }
 
 void manageEncoder() {
-  ecValue -= encoder->getValue();
   switch (currentUI) {
   case UI_SPLASH:
-    enSplash();
-    manageButtons(mSplash);
+    procesarEC(mSplash, mSplashTam);
+    break;
+  case UI_INICIO:
+    procesarEC(mInicio, mInicioTam);
     break;
   }
 }

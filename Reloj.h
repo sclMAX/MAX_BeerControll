@@ -7,50 +7,50 @@
 
 #define SEPARADOR_FECHA "/"
 #define SEPARADOR_HORA ":"
-char conv[8];
+char res[8];
 #define DIGIT(n) ('0' + (n))
 #define DIGIMOD(n) DIGIT((n) % 10)
 
 char *anioStr() {
   int xx = year();
-  conv[0] = DIGIMOD(xx / 1000);
-  conv[1] = DIGIMOD(xx / 100);
-  conv[2] = DIGIMOD(xx / 10);
-  conv[3] = DIGIMOD(xx);
-  conv[4] = '\0';
-  return conv;
+  res[0] = DIGIMOD(xx / 1000);
+  res[1] = DIGIMOD(xx / 100);
+  res[2] = DIGIMOD(xx / 10);
+  res[3] = DIGIMOD(xx);
+  res[4] = '\0';
+  return res;
 }
 
 char *mesStr() {
   int xx = month();
-  conv[0] = DIGIMOD(xx / 10);
-  conv[1] = DIGIMOD(xx);
-  conv[2] = '\0';
-  return conv;
+  res[0] = DIGIMOD(xx / 10);
+  res[1] = DIGIMOD(xx);
+  res[2] = '\0';
+  return res;
 }
 
 char *diaStr() {
   int xx = day();
-  conv[0] = DIGIMOD(xx / 10);
-  conv[1] = DIGIMOD(xx);
-  conv[2] = '\0';
-  return conv;
+  res[0] = DIGIMOD(xx / 10);
+  res[1] = DIGIMOD(xx);
+  res[2] = '\0';
+  return res;
 }
 
 char *horaStr() {
   int xx = hour();
-  conv[0] = DIGIMOD(xx / 10);
-  conv[1] = DIGIMOD(xx);
-  conv[2] = '\0';
-  return conv;
+  res[0] = DIGIMOD(xx / 10);
+  res[1] = DIGIMOD(xx);
+  res[2] = '\0';
+  return res;
 }
 
 char *minutoStr() {
   int xx = minute();
-  conv[0] = DIGIMOD(xx / 10);
-  conv[1] = DIGIMOD(xx);
-  conv[2] = '\0';
-  return conv;
+  res[0] = DIGIMOD(xx / 10);
+  res[1] = DIGIMOD(xx);
+  res[2] = '\0';
+  return res;
 }
 
 #endif // RELOJ_Hç

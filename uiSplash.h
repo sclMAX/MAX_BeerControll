@@ -6,7 +6,6 @@
 #include "uidata.h"
 
 //<MENU>
-#define ITEMS 6
 #define imDia 0
 #define imMes 1
 #define imAnio 2
@@ -16,68 +15,92 @@
 
 //<COMUN>
 void imSubMenuClick() {
-  Serial.println(encoderValue);
-  selSubMenu = -1;
-  encoderValue = selMenu;
-  Serial.print("encoderValue = selMenu;");
-  Serial.println(encoderValue);
+  cli();
+  isInSubMenu = false;
+  ecValue = selMenu;
+  sei();
 };
-void imMenuHeld() { selSubMenu = 0; };
+void imMenuHeld() { isInSubMenu = true; };
 //</COMUN>
 //<DIA>
 void imDiaSubMenuSelect() {
-  encoderValue =
-      (encoderValue >= 1) ? ((encoderValue <= 31) ? encoderValue : 1) : 31;
-  Serial.println(encoderValue);
+  cli();
+  encoderValue = (ecValue >= 1) ? ((ecValue <= 31) ? ecValue : 1) : 31;
+  ecValue = encoderValue;
+  sei();
   setTime(hour(), minute(), second(), (int)encoderValue, month(),
           year()); // setTime(hr,min,sec,day,month,yr);
 };
 void imDiaMenuReleased() {
-  Serial.print("imDiaMenuReleased()");
-  Serial.println(encoderValue);
-  encoderValue = day();
+  cli();
+  ecValue = day();
+  sei();
 };
 //</DIA>
 //<MES>
 void imMesSubMenuSelect() {
-  Serial.println("imMesSubMenuSelect()");
-  encoderValue =
-      (encoderValue >= 1) ? ((encoderValue <= 12) ? encoderValue : 1) : 12;
-  setTime(hour(), minute(), second(), day(), encoderValue,
+  cli();
+  encoderValue = (ecValue >= 1) ? ((ecValue <= 12) ? ecValue : 1) : 12;
+  ecValue = encoderValue;
+  sei();
+  setTime(hour(), minute(), second(), day(), (int)encoderValue,
           year()); // setTime(hr,min,sec,day,month,yr);
 };
-void imMesMenuReleased() { encoderValue = month(); };
+void imMesMenuReleased() {
+  cli();
+  ecValue = month();
+  sei();
+};
 //</MES>
 //<AÑO>
 void imAnioSubMenuSelect() {
-  encoderValue = (encoderValue >= 1970) ? encoderValue : 1970;
+  cli();
+  encoderValue = (ecValue >= 1970) ? ecValue : 1970;
+  ecValue = encoderValue;
+  sei();
   setTime(hour(), minute(), second(), day(), month(),
-          encoderValue); // setTime(hr,min,sec,day,month,yr);
+          (int)encoderValue); // setTime(hr,min,sec,day,month,yr);
 };
-void imAnioMenuReleased() { encoderValue = year(); };
+void imAnioMenuReleased() {
+  cli();
+  ecValue = year();
+  sei();
+};
 //</AÑO>
 //<HORA>
 void imHoraSubMenuSelect() {
-  encoderValue =
-      (encoderValue >= 0) ? ((encoderValue <= 23) ? encoderValue : 0) : 23;
-  setTime(encoderValue, minute(), second(), day(), month(),
+  cli();
+  encoderValue = (ecValue >= 0) ? ((ecValue <= 23) ? ecValue : 0) : 23;
+  ecValue = encoderValue;
+  sei();
+  setTime((int)encoderValue, minute(), second(), day(), month(),
           year()); // setTime(hr,min,sec,day,month,yr);
 };
-void imHoraMenuReleased() { encoderValue = hour(); };
+void imHoraMenuReleased() {
+  cli();
+  ecValue = hour();
+  sei();
+};
 //</HORA>
 //<MINUTO>
 void imMinutoSubMenuSelect() {
-  encoderValue =
-      (encoderValue >= 0) ? ((encoderValue <= 59) ? encoderValue : 0) : 59;
-  setTime(hour(), encoderValue, second(), day(), month(),
+  cli();
+  encoderValue = (ecValue >= 0) ? ((ecValue <= 59) ? ecValue : 0) : 59;
+  ecValue = encoderValue;
+  sei();
+  setTime(hour(), (int)encoderValue, second(), day(), month(),
           year()); // setTime(hr,min,sec,day,month,yr);
 };
-void imMinutoMenuReleased() { encoderValue = minute(); };
+void imMinutoMenuReleased() {
+  cli();
+  ecValue = minute();
+  sei();
+};
 //</MINUTO>
 //<BTNINICIO>
 void imBtnInicioClick() {
   currentUI = UI_INICIO;
-  Serial.println("INICIO CALL");
+  selMenu = 0;
 }
 //</BTNINICIO>
 //</MENU>
@@ -100,7 +123,7 @@ void insertTime(u8g_uint_t &x, u8g_uint_t &y, u8g_uint_t &m, int16_t item,
   tw = u8g.getStrWidth(s);
   th = u8g.getFontAscent() - u8g.getFontDescent();
   if (selMenu == item) {
-    if ((selSubMenu == 0)) {
+    if (isInSubMenu) {
       u8g.drawBox(x, y, tw + m + 1, th + m);
       u8g.setColorIndex(0);
     } else {
@@ -142,19 +165,17 @@ void uiSplashLCD() {
     drawFecha(1, (logoHeight + 10));
     u8g.setFont(FONT_ETIQUETA);
     u8g.setFontPosBottom();
-    u8g_uint_t x = u8g.getWidth() - (u8g.getStrWidth("INICIO") + 4) - 2;
-    u8g_uint_t y =
-        u8g.getHeight() - (u8g.getFontAscent() + 4 - u8g.getFontDescent()) - 2;
+    u8g_uint_t x = LCDW - (u8g.getStrWidth("INICIO") + 4) - 2;
+    u8g_uint_t y = LCDH - (u8g.getFontAscent() + 4 - u8g.getFontDescent());
     if (selMenu == imBtnInicio) {
       u8g.drawRBox(x, y, (u8g.getStrWidth("INICIO") + 4) + 2,
-                   (u8g.getFontAscent() + 4 - u8g.getFontDescent()) + 2, 3);
+                   (u8g.getFontAscent() + 4 - u8g.getFontDescent()), 3);
       u8g.setColorIndex(0);
     } else {
       u8g.drawRFrame(x, y, (u8g.getStrWidth("INICIO") + 4) + 2,
-                     (u8g.getFontAscent() + 4 - u8g.getFontDescent()) + 2, 3);
+                     (u8g.getFontAscent() + 4 - u8g.getFontDescent()), 3);
     }
-    u8g.drawStr((u8g.getWidth() - (u8g.getStrWidth("INICIO")) - 2),
-                (u8g.getHeight() - 3), "INICIO");
+    u8g.drawStr((LCDW - (u8g.getStrWidth("INICIO")) - 2), (LCDH - 2), "INICIO");
     u8g.setColorIndex(1);
 
   } while (u8g.nextPage());
@@ -165,39 +186,37 @@ void uiSplashInit() {
   //<DIA>
   mSplash[imDia].menu.held = imMenuHeld;
   mSplash[imDia].menu.released = imDiaMenuReleased;
-  mSplash[imDia].subMenu[0].select = imDiaSubMenuSelect;
-  mSplash[imDia].subMenu[0].click = imSubMenuClick;
+  mSplash[imDia].subMenu.select = imDiaSubMenuSelect;
+  mSplash[imDia].subMenu.click = imSubMenuClick;
 
   //</DIA>
   //<MES>
-  mSplash[imMes].subMenu[0].select = imMesSubMenuSelect;
-  mSplash[imMes].subMenu[0].click = imSubMenuClick;
   mSplash[imMes].menu.held = imMenuHeld;
   mSplash[imMes].menu.released = imMesMenuReleased;
+  mSplash[imMes].subMenu.select = imMesSubMenuSelect;
+  mSplash[imMes].subMenu.click = imSubMenuClick;
   //</MES>
   //<AÑO>
-  mSplash[imAnio].subMenu[0].select = imAnioSubMenuSelect;
-  mSplash[imAnio].subMenu[0].click = imSubMenuClick;
   mSplash[imAnio].menu.held = imMenuHeld;
   mSplash[imAnio].menu.released = imAnioMenuReleased;
+  mSplash[imAnio].subMenu.select = imAnioSubMenuSelect;
+  mSplash[imAnio].subMenu.click = imSubMenuClick;
   //</AÑO>
   //<HORA>
-  mSplash[imHora].subMenu[0].select = imHoraSubMenuSelect;
-  mSplash[imHora].subMenu[0].click = imSubMenuClick;
   mSplash[imHora].menu.held = imMenuHeld;
   mSplash[imHora].menu.released = imHoraMenuReleased;
+  mSplash[imHora].subMenu.select = imHoraSubMenuSelect;
+  mSplash[imHora].subMenu.click = imSubMenuClick;
   //</HORA>
   //<MINUTO>
-  mSplash[imMinuto].subMenu[0].select = imMinutoSubMenuSelect;
-  mSplash[imMinuto].subMenu[0].click = imSubMenuClick;
   mSplash[imMinuto].menu.held = imMenuHeld;
   mSplash[imMinuto].menu.released = imMinutoMenuReleased;
+  mSplash[imMinuto].subMenu.select = imMinutoSubMenuSelect;
+  mSplash[imMinuto].subMenu.click = imSubMenuClick;
   //</MINUTO>
   //<BTNINICIO>
   mSplash[imBtnInicio].menu.click = imBtnInicioClick;
   //</BTNINICIO>
-  selMenu = 0;
-  selSubMenu = -1;
 } //</INIT>
 
 #endif // UISPLASH_H

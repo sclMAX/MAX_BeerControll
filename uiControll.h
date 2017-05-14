@@ -1,10 +1,14 @@
 #ifndef UICONTROLL_H
 #define UICONTROLL_H
 
+#include "uiInicio.h"
 #include "uiSplash.h"
 #include "uidata.h"
 
-void initMenus() { uiSplashInit(); }
+void initMenus() {
+  uiSplashInit();
+  uiInicioInit();
+}
 
 void updateLCD() {
   switch (currentUI) {
@@ -12,7 +16,7 @@ void updateLCD() {
     uiSplashLCD();
     break;
   case UI_INICIO:
-    // showInicio();
+    uiInicioLCD();
     break;
   }
   delay(300);

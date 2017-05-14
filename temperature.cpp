@@ -36,9 +36,6 @@ Temperature::Temperature() {
   SET_OUTPUT(QUEMADOR_LICOR_PIN);
   SET_OUTPUT(QUEMADOR_MACERADOR_PIN);
   SET_OUTPUT(QUEMADOR_HERVIDO_PIN);
-  Licor.etiqueta = 'L';
-  Macerador.etiqueta = 'M';
-  Hervido.etiqueta = 'H';
 }
 
 /**

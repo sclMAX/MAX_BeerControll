@@ -21,15 +21,13 @@ void setup() {
   Timer1.attachInterrupt(timerIsr);
   tempManager.init();
   setTime(10, 30, 30, 13, 5, 2017); // setTime(hr,min,sec,day,month,yr);
+  tempManager.Licor.etiqueta = 'L';
+  tempManager.Macerador.etiqueta = 'M';
+  tempManager.Hervido.etiqueta = 'H';
 }
 
 void loop() {
   tempManager.manageTemp();
-
-  switch (currentUI) {
-  case UI_SPLASH:
-    manageEncoder();
-    break;
-  }
+  manageEncoder();
   updateLCD();
 }
