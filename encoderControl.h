@@ -84,6 +84,9 @@ void manageEncoder() {
   case UI_CONFIG:
     procesarEC(mConfig,mConfigTam);
     break;
+  case UI_CONFIG_OLLAS:
+    procesarEC(mConfig,mConfigTam);
+    break;
   }
 }
 

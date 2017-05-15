@@ -2,6 +2,7 @@
 #define UICONTROLL_H
 
 #include "uiConfig.h"
+#include "uiConfigOllas.h"
 #include "uiInicio.h"
 #include "uiSplash.h"
 #include "uidata.h"
@@ -10,6 +11,7 @@ void initMenus() {
   uiSplashInit();
   uiInicioInit();
   uiConfigInit();
+  uiConfigOllasInit();
 }
 
 void updateLCD() {
@@ -22,6 +24,9 @@ void updateLCD() {
     break;
   case UI_CONFIG:
     uiConfigLCD();
+    break;
+  case UI_CONFIG_OLLAS:
+    uiConfigOllasLCD();
     break;
   }
   delay(300);

@@ -5,7 +5,9 @@
 #include "uidata.h"
 
 //<MENUS>
+#ifndef imAtras
 #define imAtras 0
+#endif
 #define imOllas 1
 
 void imOllasMenuClick() {
@@ -23,15 +25,6 @@ void imAtrasMenuClick() {
 }
 //</MENUS>
 //<LCD>
-void drawTitle() {
-  u8g.setColorIndex(1);
-  u8g.setFont(FONT_TITLE);
-  u8g.setFontPosCenter();
-  u8g_uint_t x = (LCDW / 2) - (u8g.getStrWidth("Configuracion") / 2);
-  u8g.setPrintPos(x, 4);
-  u8g.print("Configuracion");
-  u8g.drawRFrame(x - 3, 0, u8g.getStrWidth("Configuracion") + 6, 8, 2);
-}
 
 void drawItem(u8g_uint_t x, u8g_uint_t y, int item, const char *s) {
   if (item == selMenu) {
@@ -49,7 +42,7 @@ void uiConfigLCD() {
   u8g.firstPage();
   do {
     // TITULO
-    drawTitle();
+    drawTitle("Configuracion");
     drawItem(0, 16, imAtras, "Atras");
     drawItem(0, 24, imOllas, "Ollas");
   } while (u8g.nextPage());

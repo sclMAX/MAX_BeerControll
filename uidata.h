@@ -8,13 +8,6 @@
 #include <U8glib.h>
 #include <stdlib.h>
 //<LCD DRIVER>
-U8GLIB_ST7920_128X64_1X u8g(LCD_PINS_D4, LCD_PINS_ENABLE,
-                            LCD_PINS_RS); // SPI Com: (SCK, MOSI, CS)
-
-u8g_uint_t LCDW = u8g.getWidth();
-u8g_uint_t LCDH = u8g.getHeight();
-//</LCD DRIVER>
-
 //<FONTS>
 #define FONT_TEMP_TARGET u8g_font_5x8
 #define FONT_TEMP u8g_font_5x8         // u8g_font_chikita
@@ -22,9 +15,26 @@ u8g_uint_t LCDH = u8g.getHeight();
 #define FONT_VERSION u8g_font_baby
 #define FONT_FECHA u8g_font_chikita
 #define FONT_HORA u8g_font_chikita
-#define FONT_TITLE u8g_font_chikita
+#define FONT_TITLE u8g_font_baby
 #define FONT_CONFIG_ITEM u8g_font_chikita
 //</FONTS>
+U8GLIB_ST7920_128X64_1X u8g(LCD_PINS_D4, LCD_PINS_ENABLE,
+                            LCD_PINS_RS); // SPI Com: (SCK, MOSI, CS)
+
+u8g_uint_t LCDW = u8g.getWidth();
+u8g_uint_t LCDH = u8g.getHeight();
+
+void drawTitle(const char *txt) {
+  u8g.setColorIndex(1);
+  u8g.setFont(FONT_TITLE);
+  u8g.setFontPosCenter();
+  u8g_uint_t x = (LCDW / 2) - (u8g.getStrWidth(txt) / 2);
+  u8g.setPrintPos(x, 4);
+  u8g.print(txt);
+  u8g.drawRFrame(x - 3, 0, u8g.getStrWidth(txt) + 6, 8, 2);
+}
+//</LCD DRIVER>
+
 //<MENUS>
 typedef void (*screenFunc_t)();
 typedef struct {
@@ -48,6 +58,9 @@ TMenuItem mInicio[mInicioTam];
 
 #define mConfigTam 2
 TMenuItem mConfig[mConfigTam]; // Atras Olla
+
+#define mConfigOllasTam 2
+TMenuItem mConfigOllas[mConfigOllasTam]; // Atras Olla
 
 //</MENUS>
 //<ENCODER>
