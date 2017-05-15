@@ -3,24 +3,24 @@
 
 #include "Arduino.h"
 #include "uidata.h"
+#include "configStorage.h"
 
 //<MENUS>
-#ifndef imAtras
-#define imAtras 0
-#endif
+#define imAtrasConfig 0
 #define imOllas 1
+#define imSaveConfig 2
 
 void imOllasMenuClick() {
   cli();
   currentUI = UI_CONFIG_OLLAS;
-  selMenu = 0;
+  ecValue = selMenu = 0;
   sei();
 }
 
-void imAtrasMenuClick() {
+void imAtrasConfigMenuClick() {
   cli();
   currentUI = UI_INICIO;
-  selMenu = 0;
+  ecValue = selMenu = 0;
   sei();
 }
 //</MENUS>
@@ -42,20 +42,18 @@ void uiConfigLCD() {
   u8g.firstPage();
   do {
     // TITULO
-    drawTitle("Configuracion");
-    drawItem(0, 16, imAtras, "Atras");
-    drawItem(0, 24, imOllas, "Ollas");
+    drawTitle(0, "CONFIGURACION"); // y, Texto
+    drawItem(0, 16, imAtrasConfig, TXT_ATRAS);
+    drawItem(0, 24, imOllas, "OLLAS");
+    drawItem(0, 56, imSaveConfig, "GUARDAR CONFIGURACION");
   } while (u8g.nextPage());
 }
 //</LCD>
 //<INIT>
 void uiConfigInit() {
-  //<ATRAS>
-  mConfig[imAtras].menu.click = imAtrasMenuClick;
-  //</ATRAS>
-  //<OLLAS>
+  mConfig[imAtrasConfig].menu.click = imAtrasConfigMenuClick;
   mConfig[imOllas].menu.click = imOllasMenuClick;
-  //</OLLAS>
+  mConfig[imSaveConfig].menu.click = saveConfig;
 } //</INIT>
 
 #endif // UICONFIG_H

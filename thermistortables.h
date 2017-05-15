@@ -4,7 +4,7 @@
 #include "macros.h"
 #include <avr/pgmspace.h>
 #define OVERSAMPLENR 16
-#define COMPENSAR 2
+#define COMPENSAR 0
 const short temptable_1[][2] PROGMEM = {
     {23 * OVERSAMPLENR, 300 + COMPENSAR},
     {25 * OVERSAMPLENR, 295 + COMPENSAR},

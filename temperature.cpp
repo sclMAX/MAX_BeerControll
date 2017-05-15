@@ -83,10 +83,10 @@ float Temperature::analog2temp(int raw) {
 void Temperature::updateTemperaturesFromRawValues() {
   volatile float temp = 0.00;
 
-  // INICIO OLLA LICOR
+  //<OLLA LICOR>
   temp = Temperature::analog2temp(currentTempLicorRaw);
-  if (Licor.temperatura != temp) {
-    Licor.temperatura = temp;
+  if (Licor.temperatura != ((temp != 0) ? temp + Licor.ajusteTemperatura : 0)) {
+    Licor.temperatura = ((temp != 0) ? temp + Licor.ajusteTemperatura : 0);
   }
   if (Licor.isCalentar) {
     if ((Licor.temperatura <= (Licor.tempTarget - Licor.histeresisInf)) &&
@@ -103,12 +103,13 @@ void Temperature::updateTemperaturesFromRawValues() {
     WRITE(QUEMADOR_LICOR_PIN, LOW);
     Licor.isQuemadorOn = false;
   }
-  // FIN OLLA LICOR
-
-  // INICIO OLLA MACERADOR
+  //</OLLA LICOR>
+  //<OLLA MACERADOR>
   temp = Temperature::analog2temp(currentTempMaceradorRaw);
-  if (Macerador.temperatura != temp) {
-    Macerador.temperatura = temp;
+  if (Macerador.temperatura !=
+      ((temp != 0) ? temp + Macerador.ajusteTemperatura : 0)) {
+    Macerador.temperatura =
+        ((temp != 0) ? temp + Macerador.ajusteTemperatura : 0);
   }
   if (Macerador.isCalentar) {
     if ((Macerador.temperatura <=
@@ -126,12 +127,12 @@ void Temperature::updateTemperaturesFromRawValues() {
     WRITE(QUEMADOR_MACERADOR_PIN, LOW);
     Macerador.isQuemadorOn = false;
   }
-  // FIN OLLA MACERADOR
-
-  // INICIO OLLA HERVIDO
+  //</OLLA MACERADOR>
+  //<OLLA HERVIDO>
   temp = Temperature::analog2temp(currentTempHervidoRaw);
-  if (Hervido.temperatura != temp) {
-    Hervido.temperatura = temp;
+  if (Hervido.temperatura !=
+      ((temp != 0) ? temp + Hervido.ajusteTemperatura : 0)) {
+    Hervido.temperatura = ((temp != 0) ? temp + Hervido.ajusteTemperatura : 0);
   }
   if (Hervido.isCalentar) {
     if ((Hervido.temperatura <= (Hervido.tempTarget - Hervido.histeresisInf)) &&
@@ -148,7 +149,7 @@ void Temperature::updateTemperaturesFromRawValues() {
     WRITE(QUEMADOR_HERVIDO_PIN, LOW);
     Hervido.isQuemadorOn = false;
   }
-  // FIN OLLA MACERADOR
+  //</OLLA MACERADOR>
 
   CRITICAL_SECTION_START;
   temp_meas_ready = false;

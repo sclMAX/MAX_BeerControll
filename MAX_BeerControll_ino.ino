@@ -11,6 +11,7 @@
 #include "uiControll.h"
 #include "uidata.h"
 #include <TimerOne.h>
+#include "configStorage.h"
 
 void setup() {
 
@@ -19,15 +20,11 @@ void setup() {
   encoder = new ClickEncoder(EN1, EN2, ENC, ENSTP);
   Timer1.initialize(1000);
   Timer1.attachInterrupt(timerIsr);
+  readConfig();
   tempManager.init();
-  setTime(10, 30, 30, 13, 5, 2017); // setTime(hr,min,sec,day,month,yr);
-  tempManager.Licor.etiqueta = 'L';
-  tempManager.Macerador.etiqueta = 'M';
-  tempManager.Hervido.etiqueta = 'H';
 }
 
 void loop() {
   tempManager.manageTemp();
-  manageEncoder();
   updateLCD();
 }

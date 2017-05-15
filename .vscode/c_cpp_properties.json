@@ -19,6 +19,20 @@
                     "/home/max/Arduino/libraries/TimerOne"
                 ]
             }
+        },
+        {
+            "name": "Win32",
+            "includePath": [
+                "C:\\Users\\MAX\\Documents\\Arduino\\libraries\\TimeAlarms",
+                "C:\\Users\\MAX\\Documents\\Arduino\\libraries\\*"
+            ],
+            "browse": {
+                "limitSymbolsToIncludedHeaders": false,
+                "path": [
+                    "C:\\Users\\MAX\\Documents\\Arduino\\libraries\\TimeAlarms",
+                    "C:\\Users\\MAX\\Documents\\Arduino\\libraries\\*"
+                ]
+            }
         }
     ]
 }

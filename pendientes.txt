@@ -1,0 +1,20 @@
+- LISTO codificar encoder rotativo
+- LISTO codificar manejo de LCD
+- LISTO codificar lectura de sensores
+- LISTO codificar manejo de quemadores
+- LISTO codificar beeper
+- LISTO codificar Splash screen
+- LISTO codificar manejo de imagenes
+- LISTO codificar manejo de fecha y hora
+- LISTO codificar pantalla principal
+- LISTO codificar uiConfig
+- LISTO codificar uiConfigOllas
+- LISTO codificar uiConfigOllasLicor
+- LISTO codificar uiConfigOllasMacerador
+- LISTO codificar uiConfigOllasHervido
+- LISTO codificar ajuste temperatura leida para cada Olla 
+- LISTO codificar guardar parametros en EEPROM
+- Ver y codificar guardar log en SD
+- Ver y codificar Alarma para etapas del proceso
+- Ver y codificar Manejo de bombas
+- Ver y codificar automatizar proceso.

@@ -4,6 +4,7 @@
 #include "Arduino.h"
 #include <Time.h>
 #include <TimeLib.h>
+#include <TimeAlarms.h>
 
 #define SEPARADOR_FECHA "/"
 #define SEPARADOR_HORA ":"

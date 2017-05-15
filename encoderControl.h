@@ -32,9 +32,9 @@ void procesarEC(TMenuItem menu[], int tam) {
   if (b != ClickEncoder::Open) {
     switch (b) {
     case ClickEncoder::Held:
-      beeper.on();
       if (!isInSubMenu) {
         if (menu[selMenu].menu.held) {
+          beeper.on();
           menu[selMenu].menu.held();
         }
       }
@@ -46,13 +46,14 @@ void procesarEC(TMenuItem menu[], int tam) {
       }
       break;
     case ClickEncoder::Clicked:
-      beeper.beep1(150);
       if (isInSubMenu) {
         if (menu[selMenu].subMenu.click) {
+          beeper.beep1(100);
           menu[selMenu].subMenu.click();
         }
       } else {
         if (menu[selMenu].menu.click) {
+          beeper.beep1(100);
           menu[selMenu].menu.click();
         }
       }
@@ -61,32 +62,17 @@ void procesarEC(TMenuItem menu[], int tam) {
       beeper.beep2(150);
       if (isInSubMenu) {
         if (menu[selMenu].subMenu.doubleClick) {
+          beeper.beep2(150);
           menu[selMenu].subMenu.doubleClick();
         }
       } else {
         if (menu[selMenu].menu.doubleClick) {
+          beeper.beep2(150);
           menu[selMenu].menu.doubleClick();
         }
       }
       break;
     }
-  }
-}
-
-void manageEncoder() {
-  switch (currentUI) {
-  case UI_SPLASH:
-    procesarEC(mSplash, mSplashTam);
-    break;
-  case UI_INICIO:
-    procesarEC(mInicio, mInicioTam);
-    break;
-  case UI_CONFIG:
-    procesarEC(mConfig,mConfigTam);
-    break;
-  case UI_CONFIG_OLLAS:
-    procesarEC(mConfig,mConfigTam);
-    break;
   }
 }
 
