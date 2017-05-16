@@ -32,20 +32,14 @@
 #define QUEMADOR_LICOR_PIN 10
 #define QUEMADOR_MACERADOR_PIN 9
 #define QUEMADOR_HERVIDO_PIN 8
+// BOMBAS
+#define BOMBA_RECIRCULADO_PIN -1
+#define BOMBA_WHIRPOLL_PIN -1
 /*
 *   TEMPERATURAS
 */
 #define TEMP_TARGET_MAX 110
 #define TEMP_TARGET_MIN 30
-/*
-*   FONTS
-*/
-#define FONT_TEMP_TARGET u8g_font_5x8
-#define FONT_TEMP u8g_font_5x8         // u8g_font_chikita
-#define FONT_ETIQUETA u8g_font_chikita // u8g_font_unifont
-#define FONT_VERSION u8g_font_baby
-#define FONT_FECHA u8g_font_chikita
-
 // Types
 typedef unsigned long millis_t;
 typedef void (*screenFunc_t)();

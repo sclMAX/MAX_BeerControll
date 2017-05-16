@@ -54,7 +54,7 @@ typedef struct {
 #define mSplashTam 6 // SPLASH: Dia Mes Año Hora Minuto Inicio
 TMenuItem mSplash[mSplashTam];
 
-#define mInicioTam 4 // SPLASH->INCIO:Licor  Macerador  Hervido Config
+#define mInicioTam 5// SPLASH->INCIO:Licor BombaRercirculado  Macerador  Hervido Config
 TMenuItem mInicio[mInicioTam];
 //<MENU CONFIG>
 #define mConfigTam 3 // SPLASH->INCIO->CONFIG: Atras Ollas SaveConfig

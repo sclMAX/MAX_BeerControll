@@ -3,7 +3,6 @@
 * 2017-05-07 inicio desarrollo
 * controlador para proceso de coccion de cerveza artesanal
 */
-
 #include "Reloj.h"
 #include "config.h"
 #include "encoderControl.h"
@@ -13,7 +12,8 @@
 #include <TimerOne.h>
 #include "configStorage.h"
 
-void setup() {
+void setup()
+{
 
   Serial.begin(9600);
   initMenus();
@@ -24,7 +24,8 @@ void setup() {
   tempManager.init();
 }
 
-void loop() {
+void loop()
+{
   tempManager.manageTemp();
   updateLCD();
 }
