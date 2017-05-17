@@ -24,6 +24,7 @@ U8GLIB_ST7920_128X64_1X u8g(LCD_PINS_D4, LCD_PINS_ENABLE,
 
 u8g_uint_t LCDW = u8g.getWidth();
 u8g_uint_t LCDH = u8g.getHeight();
+#define ANIMATION_DELAY 1
 
 void drawTitle(u8g_uint_t y, const char *txt) {
   u8g.setColorIndex(1);

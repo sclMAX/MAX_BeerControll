@@ -43,4 +43,5 @@
 // Types
 typedef unsigned long millis_t;
 typedef void (*screenFunc_t)();
+typedef void (*custFunc_t)();
 #endif

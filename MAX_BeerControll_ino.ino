@@ -5,12 +5,14 @@
 */
 #include "Reloj.h"
 #include "config.h"
+#include "bombasManager.h"
 #include "encoderControl.h"
 #include "temperature.h"
 #include "uiControll.h"
 #include "uidata.h"
 #include <TimerOne.h>
 #include "configStorage.h"
+
 
 void setup()
 {
@@ -28,4 +30,5 @@ void loop()
 {
   tempManager.manageTemp();
   updateLCD();
+  Alarm.delay(0);
 }

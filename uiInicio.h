@@ -104,6 +104,13 @@ void imConfigMenuClick()
 //<DRAW OLLA>
 #define OLLA_WIDTH 20
 #define OLLA_HEIGTH 16
+volatile bool isA1 = false;
+void uiInicioAnimationManager()
+{
+  cli();
+  isA1 = !isA1;
+  sei();
+}
 void drawOlla(u8g_uint_t x, u8g_uint_t y, int sel, Olla &olla)
 {
   u8g_uint_t ollaAlto = OLLA_HEIGTH;
@@ -185,18 +192,38 @@ void drawOlla(u8g_uint_t x, u8g_uint_t y, int sel, Olla &olla)
 } // </DRAW OLLA>
 
 //<DRAW BOMBA>
+volatile unsigned long lastPermuta = 0;
+volatile bool isB1 = false;
+
 void drawBomba(u8g_uint_t x, u8g_uint_t y, int sel)
 {
   if (selMenu == sel)
   {
-    u8g.drawBitmapP(x, y, BOMBA_IMG_WIDTH, BOMBA_IMG_HEIGHT, bomba_01);
-    u8g.drawRFrame(x + 5, y, 19, 16, 2);
+    u8g.setColorIndex(1);
+    u8g.drawRBox(x + 5, y, 19, 16, 2);
+    u8g.setColorIndex(0);
+    u8g.drawBitmapP(x, y, bomba_01_width, bomba_01_height, bomba_01_bits);
+    u8g.setColorIndex(1);
   }
   else
   {
-    u8g.drawBitmapP(x, y, BOMBA_IMG_WIDTH, BOMBA_IMG_HEIGHT, bomba_01);
+
+    if (lastPermuta + 1000 < millis())
+    {
+      lastPermuta = millis();
+      isB1 = !isB1;
+    }
+    if (isA1)
+    {
+      u8g.drawBitmapP(x, y, bomba_02_width, bomba_02_height, bomba_02_bits);
+    }
+    else
+    {
+      u8g.drawBitmapP(x, y, bomba_03_width, bomba_03_height, bomba_03_bits);
+    }
   }
 }
+
 //</DRAW BOMBA>
 //<HORA>
 void drawHora(u8g_uint_t y)
@@ -210,7 +237,9 @@ void drawHora(u8g_uint_t y)
   u8g.print(minutoStr());
   x = x - u8g.getStrWidth(":");
   u8g.setPrintPos(x, y);
+  u8g.setColorIndex((isA1) ? 1 : 0);
   u8g.print(":");
+  u8g.setColorIndex(1);
   x = x - u8g.getStrWidth(horaStr());
   u8g.setPrintPos(x, y);
   u8g.print(horaStr());
@@ -280,5 +309,6 @@ void uiInicioInit()
   //<CONFIG>
   mInicio[imConfig].menu.click = imConfigMenuClick;
   //</CONFIG>
+  Alarm.timerRepeat(ANIMATION_DELAY, uiInicioAnimationManager);
 } //</INIT>
 #endif // UIINICIO_H
