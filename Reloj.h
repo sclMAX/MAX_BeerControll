@@ -6,6 +6,8 @@
 #include <TimeLib.h>
 #include <TimeAlarms.h>
 
+time_t currentTime;
+
 #define SEPARADOR_FECHA "/"
 #define SEPARADOR_HORA ":"
 char res[8];

@@ -8,11 +8,20 @@
 //<MENUS>
 #define imAtrasConfig 0
 #define imOllas 1
-#define imSaveConfig 2
+#define imBombas 2
+#define imReloj 3
+#define imSaveConfig 4
 
 void imOllasMenuClick() {
   cli();
   currentUI = UI_CONFIG_OLLAS;
+  ecValue = selMenu = 0;
+  sei();
+}
+
+void imRelojMenuClick() {
+  cli();
+  currentUI = UI_SPLASH;
   ecValue = selMenu = 0;
   sei();
 }
@@ -45,6 +54,8 @@ void uiConfigLCD() {
     drawTitle(0, "CONFIGURACION"); // y, Texto
     drawItem(0, 16, imAtrasConfig, TXT_ATRAS);
     drawItem(0, 24, imOllas, "OLLAS");
+    drawItem(0, 32, imBombas, "BOMBAS");
+    drawItem(0, 40, imReloj, "RELOJ");
     drawItem(0, 56, imSaveConfig, "GUARDAR CONFIGURACION");
   } while (u8g.nextPage());
 }
@@ -53,6 +64,7 @@ void uiConfigLCD() {
 void uiConfigInit() {
   mConfig[imAtrasConfig].menu.click = imAtrasConfigMenuClick;
   mConfig[imOllas].menu.click = imOllasMenuClick;
+  mConfig[imReloj].menu.click = imRelojMenuClick;
   mConfig[imSaveConfig].menu.click = saveConfig;
 } //</INIT>
 

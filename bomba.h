@@ -7,9 +7,9 @@ class Bomba
 {
   public:
     volatile bool isOn = false;
-    int timePurgaOn = 0;
-    int timePurgaOff = 0;
-    unsigned int purgas = 2;
+    int timePurgaOn = 1;
+    int timePurgaOff = 2;
+    unsigned int purgas = 4;
     unsigned int purgaCount = 0;
 
   private:

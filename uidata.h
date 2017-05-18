@@ -58,7 +58,7 @@ TMenuItem mSplash[mSplashTam];
 #define mInicioTam 5// SPLASH->INCIO:Licor BombaRercirculado  Macerador  Hervido Config
 TMenuItem mInicio[mInicioTam];
 //<MENU CONFIG>
-#define mConfigTam 3 // SPLASH->INCIO->CONFIG: Atras Ollas SaveConfig
+#define mConfigTam 5 // SPLASH->INCIO->CONFIG: Atras Ollas Bombas Reloj SaveConfig
 TMenuItem mConfig[mConfigTam];
 
 #define mConfigOllasTam                                                        \

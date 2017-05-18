@@ -15,10 +15,10 @@ void saveConfig() {
   Serial.println("Guardando EEPROM Version...");
   EEPROM.put(eeAdress, version);
   eeAdress += sizeof(int);
-  time_t f = now();
+  currentTime = now();
   Serial.println("Guardando Fecha y Hora actual...");
-  EEPROM.put(eeAdress, f); // Fecha y hora
-  eeAdress += sizeof(f);
+  EEPROM.put(eeAdress, currentTime); // Fecha y hora
+  eeAdress += sizeof(currentTime);
   Serial.println("Guardando Config Olla Licor...");
   EEPROM.put(eeAdress, tempManager.Licor);
   eeAdress += sizeof(tempManager.Licor);
@@ -33,6 +33,7 @@ void saveConfig() {
 
 void defaultConfig() {
   setTime(06, 30, 30, 13, 5, 2017); // setTime(hr,min,sec,day,month,yr);
+  currentTime = now();
   tempManager.Licor.etiqueta = 'L';
   tempManager.Macerador.etiqueta = 'M';
   tempManager.Hervido.etiqueta = 'H';
@@ -46,16 +47,16 @@ void readConfig() {
   Serial.println("Leyendo EEPROM Version...");
   EEPROM.get(eeAdress, eeVersion);
   if (eeVersion != version) {
-    Serial.println("Version de EEPROM incompatible... Cargando default Config!");
+    Serial.println(
+        "Version de EEPROM incompatible... Cargando default Config!");
     defaultConfig();
     return;
   }
   eeAdress += sizeof(int);
-  time_t f;
   Serial.println("Leyendo Fecha y Hora...");
-  EEPROM.get(eeAdress, f);
-  setTime(f);
-  eeAdress += sizeof(f);
+  EEPROM.get(eeAdress, currentTime);
+  setTime(currentTime);
+  eeAdress += sizeof(currentTime);
   Serial.println("Leyendo Config Olla Licor...");
   EEPROM.get(eeAdress, tempManager.Licor);
   eeAdress += sizeof(tempManager.Licor);

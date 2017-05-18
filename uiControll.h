@@ -13,7 +13,7 @@
 
 void initMenus() {
   uiSplashInit();
-  uiInicioInit();
+  //uiInicioInit();
   uiConfigInit();
   uiConfigOllasInit();
   uiConfigOllasLicorInit();

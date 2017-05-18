@@ -16,5 +16,6 @@
 - LISTO codificar guardar parametros en EEPROM
 - Ver y codificar guardar log en SD
 - Ver y codificar Alarma para etapas del proceso
-- Ver y codificar Manejo de bombas
+- LISTO codificar Manejo de bombas
+- codificar configuracion de bombas
 - Ver y codificar automatizar proceso.

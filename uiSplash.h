@@ -27,9 +27,10 @@ void imDiaSubMenuSelect() {
   cli();
   encoderValue = (ecValue >= 1) ? ((ecValue <= 31) ? ecValue : 1) : 31;
   ecValue = encoderValue;
-  sei();
   setTime(hour(), minute(), second(), (int)encoderValue, month(),
           year()); // setTime(hr,min,sec,day,month,yr);
+  sei();
+  
 };
 void imDiaMenuReleased() {
   cli();
@@ -42,9 +43,9 @@ void imMesSubMenuSelect() {
   cli();
   encoderValue = (ecValue >= 1) ? ((ecValue <= 12) ? ecValue : 1) : 12;
   ecValue = encoderValue;
-  sei();
   setTime(hour(), minute(), second(), day(), (int)encoderValue,
           year()); // setTime(hr,min,sec,day,month,yr);
+  sei();  
 };
 void imMesMenuReleased() {
   cli();
@@ -57,9 +58,10 @@ void imAnioSubMenuSelect() {
   cli();
   encoderValue = (ecValue >= 1970) ? ecValue : 1970;
   ecValue = encoderValue;
-  sei();
   setTime(hour(), minute(), second(), day(), month(),
           (int)encoderValue); // setTime(hr,min,sec,day,month,yr);
+  sei();
+  
 };
 void imAnioMenuReleased() {
   cli();
@@ -72,9 +74,9 @@ void imHoraSubMenuSelect() {
   cli();
   encoderValue = (ecValue >= 0) ? ((ecValue <= 23) ? ecValue : 0) : 23;
   ecValue = encoderValue;
-  sei();
   setTime((int)encoderValue, minute(), second(), day(), month(),
           year()); // setTime(hr,min,sec,day,month,yr);
+  sei();
 };
 void imHoraMenuReleased() {
   cli();
@@ -87,9 +89,9 @@ void imMinutoSubMenuSelect() {
   cli();
   encoderValue = (ecValue >= 0) ? ((ecValue <= 59) ? ecValue : 0) : 59;
   ecValue = encoderValue;
-  sei();
   setTime(hour(), (int)encoderValue, second(), day(), month(),
           year()); // setTime(hr,min,sec,day,month,yr);
+  sei();
 };
 void imMinutoMenuReleased() {
   cli();
@@ -100,6 +102,7 @@ void imMinutoMenuReleased() {
 //<BTNINICIO>
 void imBtnInicioClick() {
   currentUI = UI_INICIO;
+  uiInicioInit();
   selMenu = 0;
 }
 //</BTNINICIO>

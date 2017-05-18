@@ -195,6 +195,7 @@ void drawBomba(u8g_uint_t x, u8g_uint_t y, int sel, Bomba &b) {
     u8g.drawBitmapP(x, y, bomba_01_width, bomba_01_height, bomba_01_bits);
     u8g.setColorIndex(1);
   }
+  u8g.setColorIndex(1);
 }
 
 //</DRAW BOMBA>
@@ -220,9 +221,9 @@ void drawHora(u8g_uint_t y) {
 //<BUTTON>
 void drawBtnConfig() {
   if (selMenu == imConfig) {
-    u8g.drawBitmapP(LCDW - 15, LCDH - 15, CONFIG_WIDTH, CONFIG_HEIGHT, config1);
+    u8g.drawBitmapP(LCDW - 15, LCDH - 15, CONFIG_WIDTH, CONFIG_HEIGHT, config_02);
   } else {
-    u8g.drawBitmapP(LCDW - 15, LCDH - 15, CONFIG_WIDTH, CONFIG_HEIGHT, config);
+    u8g.drawBitmapP(LCDW - 15, LCDH - 15, CONFIG_WIDTH, CONFIG_HEIGHT, config_01);
   }
 }
 //</BUTTON>
