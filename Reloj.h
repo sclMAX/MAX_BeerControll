@@ -3,10 +3,16 @@
 
 #include "Arduino.h"
 #include <Time.h>
-#include <TimeLib.h>
 #include <TimeAlarms.h>
+#include <TimeLib.h>
 
 time_t currentTime;
+
+tmElements_t getTimeStruct(time_t &t) {
+  tmElements_t ts;
+  breakTime(t, ts);
+  return ts;
+}
 
 #define SEPARADOR_FECHA "/"
 #define SEPARADOR_HORA ":"
