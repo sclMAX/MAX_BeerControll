@@ -5,6 +5,7 @@
 #include "config.h"
 #include "fastio.h"
 #include "macros.h"
+#include "Arduino.h"
 
 enum TempState {
   PrepareTempLicor,
@@ -33,9 +34,9 @@ unsigned long Temperature::rawTempHervidoValue = 0;
  */
 
 Temperature::Temperature() {
-  SET_OUTPUT(QUEMADOR_LICOR_PIN);
-  SET_OUTPUT(QUEMADOR_MACERADOR_PIN);
-  SET_OUTPUT(QUEMADOR_HERVIDO_PIN);
+  pinMode(QUEMADOR_LICOR_PIN, OUTPUT);
+  pinMode(QUEMADOR_MACERADOR_PIN, OUTPUT);
+  pinMode(QUEMADOR_HERVIDO_PIN, OUTPUT);
 }
 
 /**
@@ -91,16 +92,16 @@ void Temperature::updateTemperaturesFromRawValues() {
   if (Licor.isCalentar) {
     if ((Licor.temperatura <= (Licor.tempTarget - Licor.histeresisInf)) &&
         (!Licor.isQuemadorOn)) {
-      WRITE(QUEMADOR_LICOR_PIN, HIGH);
+      digitalWrite(QUEMADOR_LICOR_PIN, HIGH);
       Licor.isQuemadorOn = true;
     } else if ((Licor.temperatura >=
                 (Licor.tempTarget + Licor.histeresisSup)) &&
                (Licor.isQuemadorOn)) {
-      WRITE(QUEMADOR_LICOR_PIN, LOW);
+      digitalWrite(QUEMADOR_LICOR_PIN, LOW);
       Licor.isQuemadorOn = false;
     }
   } else {
-    WRITE(QUEMADOR_LICOR_PIN, LOW);
+    digitalWrite(QUEMADOR_LICOR_PIN, LOW);
     Licor.isQuemadorOn = false;
   }
   //</OLLA LICOR>
@@ -115,16 +116,16 @@ void Temperature::updateTemperaturesFromRawValues() {
     if ((Macerador.temperatura <=
          (Macerador.tempTarget - Macerador.histeresisInf)) &&
         (!Macerador.isQuemadorOn)) {
-      WRITE(QUEMADOR_MACERADOR_PIN, HIGH);
+      digitalWrite(QUEMADOR_MACERADOR_PIN, HIGH);
       Macerador.isQuemadorOn = true;
     } else if ((Macerador.temperatura >=
                 (Macerador.tempTarget + Macerador.histeresisSup)) &&
                (Macerador.isQuemadorOn)) {
-      WRITE(QUEMADOR_MACERADOR_PIN, LOW);
+      digitalWrite(QUEMADOR_MACERADOR_PIN, LOW);
       Macerador.isQuemadorOn = false;
     }
   } else {
-    WRITE(QUEMADOR_MACERADOR_PIN, LOW);
+    digitalWrite(QUEMADOR_MACERADOR_PIN, LOW);
     Macerador.isQuemadorOn = false;
   }
   //</OLLA MACERADOR>
@@ -137,16 +138,16 @@ void Temperature::updateTemperaturesFromRawValues() {
   if (Hervido.isCalentar) {
     if ((Hervido.temperatura <= (Hervido.tempTarget - Hervido.histeresisInf)) &&
         (!Hervido.isQuemadorOn)) {
-      WRITE(QUEMADOR_HERVIDO_PIN, HIGH);
+      digitalWrite(QUEMADOR_HERVIDO_PIN, HIGH);
       Hervido.isQuemadorOn = true;
     } else if ((Hervido.temperatura >=
                 (Hervido.tempTarget + Hervido.histeresisSup)) &&
                (Hervido.isQuemadorOn)) {
-      WRITE(QUEMADOR_HERVIDO_PIN, LOW);
+      digitalWrite(QUEMADOR_HERVIDO_PIN, LOW);
       Hervido.isQuemadorOn = false;
     }
   } else {
-    WRITE(QUEMADOR_HERVIDO_PIN, LOW);
+    digitalWrite(QUEMADOR_HERVIDO_PIN, LOW);
     Hervido.isQuemadorOn = false;
   }
   //</OLLA MACERADOR>
