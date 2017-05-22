@@ -19,3 +19,4 @@
 - LISTO codificar Manejo de bombas
 - codificar configuracion de bombas
 - Ver y codificar automatizar proceso.
+- Ver problema con las Alarmas cunado se cambia la hora
