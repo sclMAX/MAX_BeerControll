@@ -7,7 +7,8 @@
                 "/Documentos/Proyectos/Cerveza/MAX_BeerControll",
                 "/home/max/Arduino/libraries/*",
                 "/home/max/Arduino/libraries/Time",
-                "/home/max/Arduino/libraries/TimerOne"
+                "/home/max/Arduino/libraries/TimerOne",
+                "/home/max/Arduino/libraries/TimeAlarms"
             ],
             "browse": {
                 "limitSymbolsToIncludedHeaders": false,
