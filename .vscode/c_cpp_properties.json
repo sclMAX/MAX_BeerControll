@@ -25,7 +25,7 @@
             "name": "Win32",
             "includePath": [
                 "C:\\Program Files (x86)\\Arduino\\hardware\\arduino\\avr\\cores\\arduino",
-                "C:\\Program Files (x86)\\Arduino\\libraries\\Time",
+                "C:\\Program Files (x86)\\Arduino\\libraries\\Time\\*.*",
                 "C:\\Users\\MAX\\Documents\\Arduino\\libraries\\TimeAlarms",
                 "C:\\Users\\MAX\\Documents\\Arduino\\libraries\\*",
                 "E:\\Proyectos\\Cerveza\\MAX_BeerControll"
