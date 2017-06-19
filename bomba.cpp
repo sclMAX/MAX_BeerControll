@@ -1,4 +1,5 @@
 #include "bomba.h"
+#include "Arduino.h"
 
 Bomba::Bomba(int PIN) : pin(PIN)
 {

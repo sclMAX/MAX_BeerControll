@@ -5,7 +5,7 @@
             "includePath": [
                 "/home/max/Programas/arduino-1.8.2/hardware/arduino/avr/cores/arduino",
                 "/Documentos/Proyectos/Cerveza/MAX_BeerControll",
-                "/home/max/Arduino/libraries/*",
+                "/home/max/Arduino/libraries/U8glib",
                 "/home/max/Arduino/libraries/Time",
                 "/home/max/Arduino/libraries/TimerOne",
                 "/home/max/Arduino/libraries/TimeAlarms"
@@ -15,7 +15,7 @@
                 "path": [
                     "/home/max/Programas/arduino-1.8.2/hardware/arduino/avr/cores/arduino",
                     "/Documentos/Proyectos/Cerveza/MAX_BeerControll",
-                    "/home/max/Arduino/libraries",
+                    "/home/max/Arduino/libraries/U8glib",
                     "/home/max/Arduino/libraries/Time",
                     "/home/max/Arduino/libraries/TimerOne"
                 ]
